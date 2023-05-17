@@ -1,0 +1,32 @@
+<div [ngClass]="currentLanguage=='arabic'">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-6">
+            <div class="alert alert-danger" *ngIf="currentLanguage=='english' && error">{{ error }}</div>
+            <div class="alert alert-danger" *ngIf="currentLanguage=='arabic' && error && !isAuth">{{ error == "Error: The password isn't correct" ? 'الرقم السرى غير صحيح' : 'البريد الالكترونى غير موجود'}}</div>
+            <div class="alert alert-danger" *ngIf="currentLanguage=='arabic' && error && isAuth">{{ error == "Error: This email already exists" ? 'هذا البريد الالكترونى موجود بالفعل' : 'تحقق من الرقم السرى'}}</div>
+            <div class="alert alert-success" *ngIf="successMessage">{{ successMessage }}</div>
+            <form (ngSubmit)="onSubmit(authForm)" #authForm="ngForm">
+                <div class="form-group">
+                    <label for="email" class="form-label">{{currentLanguage=='arabic'?'البريد الالكترونى':'Email'}}</label>
+                    <input type="email" name="email" id="email" class="form-control" ngModel required email>
+                </div>
+
+                <div class="form-group mt-3">
+                    <label for="password" class="form-label">{{currentLanguage=='arabic'?'الرقم السرى':'Password'}}</label>
+                    <input type="password" name="password" id="password" class="form-control" ngModel required minlength="6">
+                </div>
+
+                <div class="form-group mt-3">
+                    <button *ngIf="currentLanguage=='english'" class="btn btn-primary" type="submit" [disabled]="!authForm.valid || isLoading">
+                        {{ !isAuth ? 'Login' : 'Signup'}}
+                        <app-notification-spinner *ngIf="isLoading"></app-notification-spinner>
+                    </button>
+                    <button *ngIf="currentLanguage=='arabic'" class="btn btn-primary" type="submit" [disabled]="!authForm.valid || isLoading">
+                        {{ !isAuth ? 'تسجيل الدخول' : 'انشاء حساب'}}
+                        <app-notification-spinner *ngIf="isLoading"></app-notification-spinner>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

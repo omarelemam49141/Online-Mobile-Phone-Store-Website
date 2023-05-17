@@ -1,0 +1,49 @@
+/* You can add global styles to this file, and also import other style files */
+$main-color-bg-dark: #310052;
+$main-color-bg: hsl(261.64deg, 34.46%, 34.71%);
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -o-box-sizing: border-box;
+}
+
+body {
+  height: auto;
+  font-family: "Raleway", sans-serif !important;
+}
+
+a {
+    cursor: pointer;
+}@import '@fortawesome/fontawesome-free/scss/fontawesome.scss';
+@import '@fortawesome/fontawesome-free/scss/solid.scss';
+@import '@fortawesome/fontawesome-free/scss/regular.scss';
+@import '@fortawesome/fontawesome-free/scss/brands.scss';
+
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: $main-color-bg;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: $main-color-bg-dark;
+  }
+
+html, body { height: auto; }
+html {
+  min-height: 100vh;
+}
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -1,0 +1,52 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.arabicLang {
+    font-family: 'IBM Plex Sans Arabic', sans-serif !important;
+}
+
+.all-content {
+    margin-top: 20px;
+}
+
+.all-view {
+    position: absolute;
+    width: 100%;
+    min-height: 100vh;
+}
+
+
+.all-view {
+    padding-bottom: 100px;
+}
+
+
+@media (max-width: 390px) {
+    .all-view {
+        padding-bottom: 150px;
+    }
+}
+
+app-footer {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
+
+.container {
+    @media (min-width: 768px) {
+        margin-top: 30px;
+    }
+
+    @media (min-width: 992px) {
+        margin-top: 180px !important;
+    }
+}
+
+
+@media (min-width: 992px) {
+    .all-content {
+        margin-top: 100px;
+    }
+}

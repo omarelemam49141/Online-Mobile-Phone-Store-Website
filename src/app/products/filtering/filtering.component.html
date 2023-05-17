@@ -1,0 +1,7 @@
+<div [ngClass]="{'col-xs-12 col-sm-6 col-md-3 mb-3': !modify}">
+    <label class="mb-1" [ngClass]="{'fw-bold' :!modify}">{{title}}</label>
+    <select class="form-select" aria-label="Default select example" (change)="filterElements($event)">
+        <option value="all" selected *ngIf="!modify">All</option>
+        <option value="{{item}}" *ngFor="let item of items; let i=index" [selected]="checkIfReset(i, item)">{{item}}</option>
+    </select>
+</div>

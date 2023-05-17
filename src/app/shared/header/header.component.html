@@ -1,0 +1,709 @@
+<div [ngClass]="{'arabic': currentLanguage=='arabic'}">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container">
+            <a class="navbar-brand" [ngClass]="{'arabic': currentLanguage=='arabic'}" (click)="viewAll('All Products',  'allTitle', 'allSub')">
+                <img src="https://i.ibb.co/xmsr4nJ/Elkory-Phone-Logo-High-Quality.png" class="logo" alt="Ashraf-Logo">
+                <span class="logo-text">{{currentLanguage=="arabic"? 'الكورى فون' : 'ElkoryPhone'}}</span>
+            </a>
+            <a href="tel:01023596074" class="phone" *ngIf="!isAuth">+01023596074</a>
+            <a *ngIf="isAuth" class="nav-link order-link position-relative cart-link" [ngClass]="{'arabic': currentLanguage=='arabic'}" routerLink="carts" routerLinkActive="active">
+                <span class="cart-title">{{currentLanguage=="arabic"? 'الطلبات' : 'Orders'}}</span>
+                <fa-icon [icon]="storeIcon" class="me-2 fs-3 cart-icon"></fa-icon>
+                <span class="badge text-bg-secondary bg-danger notification orders-notification" *ngIf="newOrdersAmount && newOrdersAmount!=0 && isAuth==true">{{newOrdersAmount}}</span>
+            </a>
+    
+            <a class="search__container">
+                <input class="search__input" type="text" [placeholder]="currentLanguage=='arabic'? 'ابحث' : 'Search'" [(ngModel)]="searchValue" (focus)="searchCloseInput=false; searching()" (blur)="searchCloseInput=true;" (input)="searching()">
+                <div (mouseover)="searchCloseDiv=false" (mouseleave)="searchCloseDiv=true" [ngStyle]="{'display': searchingStatus()}">
+                    <app-search-component></app-search-component>
+                </div>
+            </a>
+    
+            <div class="menu flex navbar-nav ms-md-auto align-items-center flex-row-reverse flex-lg-row">
+                <button *ngIf="currentLanguage=='english'" class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" (click)="openScroll(menu)" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <button *ngIf="currentLanguage=='arabic'" class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" (click)="openScroll(menuArabic)" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                    <div class="navbar-nav ms-auto">
+                        <a class="nav-link lang" [ngClass]="{'arabic': currentLanguage=='arabic'}" (click)="isCollapsed = ! isCollapsed"
+                        [attr.aria-expanded]="!isCollapsed"
+                        aria-controls="collapseExample" #langButton>
+                            <span class="fi {{lang}}"></span>
+                            <fa-icon [icon]="downArrow" class="arrow"></fa-icon>
+                        </a>
+                        <a *ngIf="currentLanguage=='english'" isAuth class="nav-link" [ngClass]="{'arabic': currentLanguage=='arabic'}" routerLink="auth" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                            <fa-icon [icon]="login" class="me-2 fs-6"></fa-icon>
+                            {{isAuth ? 'Signup' : 'Login'}}
+                        </a>
+                        <a *ngIf="currentLanguage=='arabic'" isAuth class="nav-link" [ngClass]="{'arabic': currentLanguage=='arabic'}" routerLink="auth" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                            <fa-icon [icon]="login" class="ms-2 fs-6"></fa-icon>
+                            {{isAuth ? 'انشاء حساب' : 'تسجيل الدخول'}}
+                        </a>
+                    </div>
+                </div>
+                
+                <a *ngIf="!isAuth" class="nav-link position-relative cart-link" [ngClass]="{'arabic': currentLanguage=='arabic'}" routerLink="/carts" routerLinkActive="active">
+                    <span class="cart-title">{{currentLanguage=="arabic"? 'عربة التسوق' : 'Cart'}}</span>
+                    <fa-icon [icon]="cart" class="me-2 fs-3 cart-icon"></fa-icon>
+                    <span class="badge text-bg-secondary bg-danger notification" *ngIf="productsAmount && productsAmount!=0 && user">{{productsAmount}}</span>
+                </a>
+    
+                <a *ngIf="isAuth" class="nav-link position-relative cart-link logout-link" [ngClass]="{'arabic': currentLanguage=='arabic'}" style="color: red;" (click)="onLogOut()">
+                    {{currentLanguage=="arabic"? 'تسجيل الخروج' : 'Logout'}}
+                </a>
+            </div>
+        </div>
+    
+        <div class="categories sticky-top">
+            <div class="container">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-md-6">
+                        <div class="row align-items-center">
+                            <div class="col-md-3">
+                                <p class="home" (click)="viewAll('All Products', 'allTitle', 'allSub')">{{currentLanguage=="arabic"? 'الرئيسية' : 'Home'}}</p>
+                            </div>
+                            <div class="col-md-3">
+                                <p class="mobiles" routerLink="/categoryDetails/mobiles" (mouseover)="showCategoryDetails('mobiles-list')" (mouseleave)="hideCategoryDetails('mobiles-list')">{{currentLanguage=="arabic"? 'هواتف' : 'Mobiles'}}</p>
+                            </div>
+                            <div class="col-md-3">
+                                <p class="cases" routerLink="/categoryDetails/cases" (mouseover)="showCategoryDetails('cases-list')" (mouseleave)="hideCategoryDetails('cases-list')">{{currentLanguage=="arabic"? 'جرابات' : 'Mobile Covers'}}</p>
+                            </div>
+                            <div class="col-md-3">
+                                <p class="headphones" routerLink="/categoryDetails/headphones" style="padding-left: 15px;" (mouseover)="showCategoryDetails('headphones-list')" (mouseleave)="hideCategoryDetails('headphones-list')">{{currentLanguage=="arabic"? 'سماعات' : 'Headphones'}}</p>
+                            </div>
+                        </div>  
+                    </div>
+        
+                    <div class="col-md-6">
+                        <div class="row align-items-center">
+                            <div class="col-md-3">
+                                <p class="cables" routerLink="/categoryDetails/cables" (mouseover)="showCategoryDetails('cables-list')" (mouseleave)="hideCategoryDetails('cables-list')">{{currentLanguage=="arabic"? 'كابلات' : 'Cables'}}</p>
+                            </div>
+                            <div class="col-md-3">
+                                <p class="memory" routerLink="/categoryDetails/flash" (mouseover)="showCategoryDetails('flash-list')" (mouseleave)="hideCategoryDetails('flash-list')">{{currentLanguage=="arabic"? 'فلاشات و كروت ميمورى' : 'Flash Drives & Memory'}}</p>
+                            </div>
+                            <div class="col-md-3">
+                                <p class="watches ps-3" routerLink="/categoryDetails/smart" (mouseover)="showCategoryDetails('watch-list')" (mouseleave)="hideCategoryDetails('watch-list')">{{currentLanguage=="arabic"? 'أجهزة ذكية' : 'Smart Devices'}}</p>
+                            </div>
+                            <div class="col-md-3">
+                                <p class="others" (click)="viewAll('Others', 'allTitle', 'allSub')" (mouseover)="showCategoryDetails('others-list')" (mouseleave)="hideCategoryDetails('others-list')">{{currentLanguage=="arabic"? 'أخرى' : 'Others'}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="category-details" id="mobiles-list" (mouseover)="showCategoryDetails('mobiles-list')" (mouseleave)="hideCategoryDetails('mobiles-list')">
+            <div class="row">
+                <div class="col-md-8 lists">
+                    <div class="row">
+                        <div class="col-md-4 list">
+                            <p class="header">{{currentLanguage=="arabic"? 'تسوق حسب الماركة' : 'Shop By Brand'}}</p>
+                            <div class="body">
+                                <p (click)="viewAll('Mobiles', 'brand', 'Apple')">{{currentLanguage=="arabic"? 'أبل' : 'Apple'}}</p>
+                                <p (click)="viewAll('Mobiles', 'brand', 'Samsung')">{{currentLanguage=="arabic"? 'سامسونج' : 'Samsung'}}</p>
+                                <p (click)="viewAll('Mobiles', 'brand', 'Oppo')">{{currentLanguage=="arabic"? 'أوبو' : 'Oppo'}}</p>
+                                <p (click)="viewAll('Mobiles', 'brand', 'Xiaomi')">{{currentLanguage=="arabic"? 'شاومى' : 'Xiaomi'}}</p>
+                                <p (click)="viewAll('Mobiles', 'brand', 'Realme')">{{currentLanguage=="arabic"? 'ريلمى' : 'Realme'}}</p>
+                                <p (click)="viewAll('Mobiles', 'brand', 'Huawei')">{{currentLanguage=="arabic"? 'هواوى' : 'Huawei'}}</p>
+                                <p (click)="viewAll('Mobiles', 'brand', 'Nokia')">{{currentLanguage=="arabic"? 'نوكيا' : 'Nokia'}}</p>
+                            </div>
+                        </div>
+    
+                        <div class="col-md-4 list">
+                            <p class="header">{{currentLanguage=="arabic"? 'تسوق حسب الحالة' : 'Shop By Status'}}</p>
+                            <div class="body">
+                                <p (click)="viewAll('Mobiles', 'status', 'New')">{{currentLanguage=="arabic"? 'جديد' : 'New'}}</p>
+                                <p (click)="viewAll('Mobiles', 'status', 'Zero')">{{currentLanguage=="arabic"? 'زيرو' : 'Zero'}}</p>
+                                <p (click)="viewAll('Mobiles', 'status', 'Used')">{{currentLanguage=="arabic"? 'مستعمل' : 'Used'}}</p>
+                            </div>
+                        </div>
+    
+                        <div class="col-md-4 list">
+                            <p class="header">{{currentLanguage=="arabic"? 'نظام التشغيل' : 'Operating System'}}</p>
+                            <div class="body">
+                                <p (click)="viewAll('Mobiles', 'os', 'iOS')">iOS</p>
+                                <p (click)="viewAll('Mobiles', 'os', 'Android')">{{currentLanguage=="arabic"? 'أندرويد' : 'Android'}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col-md-4 image">
+                    <img src="../../../assets/images/mobile.png" alt="mobiles">
+                </div>
+            </div>
+        </div>
+    
+        <div class="category-details" id="cases-list" (mouseover)="showCategoryDetails('cases-list')" (mouseleave)="hideCategoryDetails('cases-list')">
+            <div class="row">
+                <div class="col-md-8 lists">
+                    <div class="row">
+                        <div class="col-md-4 list">
+                            <p class="header">{{currentLanguage=="arabic"? 'تسوق حسب الماركة' : 'Shop By Brand'}}</p>
+                            <div class="body">
+                                <p (click)="viewAll('Mobile Cases', 'brand', 'Apple')">{{currentLanguage=="arabic"? 'أبل' : 'Apple'}}</p>
+                                <p (click)="viewAll('Mobile Cases', 'brand', 'Samsung')">{{currentLanguage=="arabic"? 'سامسونج' : 'Samsung'}}</p>
+                                <p (click)="viewAll('Mobile Cases', 'brand', 'Oppo')">{{currentLanguage=="arabic"? 'أوبو' : 'Oppo'}}</p>
+                                <p (click)="viewAll('Mobile Cases', 'brand', 'Xiaomi')">{{currentLanguage=="arabic"? 'شاومى' : 'Xiaomi'}}</p>
+                                <p (click)="viewAll('Mobile Cases', 'brand', 'Realme')">{{currentLanguage=="arabic"? 'ريلمى' : 'Realme'}}</p>
+                                <p (click)="viewAll('Mobile Cases', 'brand', 'Huawei')">{{currentLanguage=="arabic"? 'هواوى' : 'Huawei'}}</p>
+                                <p (click)="viewAll('Mobile Cases', 'brand', 'Nokia')">{{currentLanguage=="arabic"? 'نوكيا' : 'Nokia'}}</p>
+                            </div>
+                        </div>
+    
+                        <div class="col-md-4 list">
+                            <p class="header">{{currentLanguage=="arabic"? 'تسوق حسب النوع' : 'Shop By Type'}}</p>
+                            <div class="body">
+                                <p (click)="viewAll('Mobile Cases', 'type', 'Mobiles')">{{currentLanguage=="arabic"? 'جرابات هواتف' : 'Mobiles Covers'}}</p>
+                                <p (click)="viewAll('Mobile Cases', 'type', 'Airpods')">{{currentLanguage=="arabic"? 'جرابات سماعات لاسلكية' : 'Air pods Covers'}}</p>
+                                <p (click)="viewAll('Mobile Cases', 'type', 'Tablets')">{{currentLanguage=="arabic"? 'جرابات تابلت' : 'Tablets Covers'}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col-md-4 image">
+                    <img src="../../../assets/images/case.png" alt="mobiles">
+                </div>
+            </div>
+        </div>
+    
+        <div class="category-details" id="headphones-list" (mouseover)="showCategoryDetails('headphones-list')" (mouseleave)="hideCategoryDetails('headphones-list')">
+            <div class="row">
+                <div class="col-md-8 lists">
+                    <div class="row">
+                        <div class="col-md-4 list">
+                            <p class="header">{{currentLanguage=="arabic"? 'تسوق حسب النوع' : 'Shop By Type'}}</p>
+                            <div class="body">
+                                <p (click)="viewAll('Headphones', 'type', 'Airpods')">{{currentLanguage=="arabic"? 'سماعات لاسلكية' : 'Air Pods'}}</p>
+                                <p (click)="viewAll('Headphones', 'type', 'Headsets')">{{currentLanguage=="arabic"? 'سماعات رأس' : 'Headsets'}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col-md-4 image">
+                    <img src="../../../assets/images/headphones.webp" alt="mobiles">
+                </div>
+            </div>
+        </div>
+    
+        <div class="category-details" id="cables-list" (mouseover)="showCategoryDetails('cables-list')" (mouseleave)="hideCategoryDetails('cables-list')">
+            <div class="row">
+                <div class="col-md-8 lists">
+                    <div class="row">
+                        <div class="col-md-4 list">
+                            <p class="header">{{currentLanguage=="arabic"? 'تسوق حسب النوع' : 'Shop By Type'}}</p>
+                            <div class="body">
+                                <p (click)="viewAll('Cables', 'type', 'Micro')">{{currentLanguage=="arabic"? 'مايكرو' : 'Micro'}}</p>
+                                <p (click)="viewAll('Cables', 'type', 'Type C')">Type C</p>
+                                <p (click)="viewAll('Cables', 'type', 'I phone')">I Phone</p>
+                                <p (click)="viewAll('Cables', 'type', 'Tablet')">{{currentLanguage=="arabic"? 'تابلت' : 'Tablet'}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col-md-4 image">
+                    <img src="../../../assets/images/cables.png" style="width:150%;height:150%;top: -25%;position: relative;" alt="mobiles">
+                </div>
+            </div>
+        </div>
+    
+        <div class="category-details" id="flash-list" (mouseover)="showCategoryDetails('flash-list')" (mouseleave)="hideCategoryDetails('flash-list')">
+            <div class="row">
+                <div class="col-md-8 lists">
+                    <div class="row">
+                        <div class="col-md-4 list">
+                            <p class="header">{{currentLanguage=="arabic"? 'تسوق حسب النوع' : 'Shop By Type'}}</p>
+                            <div class="body">
+                                <p (click)="viewAll('Flash Drivers & Memory', 'type', 'Flash Drivers')">{{currentLanguage=="arabic"? 'فلاشات' : 'Flash Drivers'}}</p>
+                                <p (click)="viewAll('Flash Drivers & Memory', 'type', 'Memory Card')">{{currentLanguage=="arabic"? 'كروت ميمورى' : 'Memory Card'}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col-md-4 image">
+                    <img src="../../../assets/images/flash.png" alt="mobiles">
+                </div>
+            </div>
+        </div>
+    
+        <div class="category-details" id="watch-list" (mouseover)="showCategoryDetails('watch-list')" (mouseleave)="hideCategoryDetails('watch-list')">
+            <div class="row">
+                <div class="col-md-8 lists">
+                    <div class="row">
+                        <div class="col-md-4 list">
+                            <p class="header">{{currentLanguage=="arabic"? 'تسوق حسب النوع' : 'Shop By Type'}}</p>
+                            <div class="body">
+                                <p (click)="viewAll('Smart Devices', 'type', 'Smart watch')">{{currentLanguage=="arabic"? 'ساعات ذكية' : 'Smart Watch'}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col-md-4 image">
+                    <img src="../../../assets/images/watch.png" alt="mobiles">
+                </div>
+            </div>
+        </div>
+    
+        <div class="category-details" id="others-list" (mouseover)="showCategoryDetails('others-list')" (mouseleave)="hideCategoryDetails('others-list')">
+            <div class="row">
+                <div class="col-md-4 lists">
+                </div>
+    
+                <div class="col-md-4 image" (click)="viewAll('Others', 'allTitle', 'allSub')" style="cursor: pointer;">
+                    <img src="../../../assets/images/others.jpeg" class="img-fluid" alt="mobiles">
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="search-area">
+        <div class="container">
+            <a class="search__container small-screen">
+                <input class="search__input" type="text" [placeholder]="currentLanguage=='arabic' ? 'بحث' : 'Search'" [(ngModel)]="searchValue" (focus)="searchCloseInput=false; searching()" (blur)="searchCloseInput=true;" (input)="searching()">
+                <div (mouseover)="searchCloseDiv=false" (mouseleave)="searchCloseDiv=true" [ngStyle]="{'display': searchingStatus()}">
+                    <app-search-component></app-search-component>
+                </div>
+            </a>
+        </div>
+    </div>
+    
+    <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed" class="languages" #languageMenu>
+        <div class="card">
+            <div class="container">
+                <div class="lang-header">
+                    <span>{{currentLanguage=='arabic' ? 'اختر اللغة' : 'Choose a language'}}</span>
+                    <fa-icon [icon]="closeIcon" (click)="isCollapsed = true"></fa-icon>
+                </div>
+                <!-- english -->
+                <div *ngIf="currentLanguage=='english'" class="card-body mt-5 d-flex flex-wrap justify-content-center">
+                    <a class="flag d-flex align-items-center me-5" (click)="changeLang('fi-eg')">
+                        <span class="fi fi-eg me-3 fs-4"></span>
+                        <span class="lang-text" style="font-size: 16px;">عربى</span>
+                    </a>
+    
+                    <a class="flag d-flex align-items-center" (click)="changeLang('fi-us')">
+                        <span class="fi fi-us fs-4 me-3"></span>
+                        <span class="lang-text" style="font-size: 16px;">English</span>
+                    </a>
+                </div>
+                <!-- arabic -->
+                <div *ngIf="currentLanguage=='arabic'" class="card-body mt-5 d-flex flex-wrap justify-content-center">
+                    <a class="flag d-flex align-items-center ms-5" (click)="changeLang('fi-eg')">
+                        <span class="fi fi-eg ms-3 fs-4"></span>
+                        <span class="lang-text" style="font-size: 16px;">عربى</span>
+                    </a>
+    
+                    <a class="flag d-flex align-items-center" (click)="changeLang('fi-us')">
+                        <span class="fi fi-us fs-4 ms-3"></span>
+                        <span class="lang-text" style="font-size: 16px;">English</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- english menu -->
+    <ng-template #menu let-offcanvas>
+        <div class="offcanvas-header" [dir]="currentLanguage=='arabic'? 'rtl' : 'ltr'">
+            <h4 class="offcanvas-title mb-0" *ngIf="currentLanguage=='arabic'" (click)="offcanvas.close('Close click'); changeLang('fi-us')">English language</h4>
+            <h4 class="offcanvas-title mb-0" *ngIf="currentLanguage=='english'" (click)="offcanvas.close('Close click'); changeLang('fi-eg'); offcanvas.close('Close click')">اللغة العربية</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="offcanvas.dismiss('Cross click')"></button>
+        </div>
+        <div class="offcanvas-body" [dir]="currentLanguage=='arabic'? 'rtl' : 'ltr'" [ngClass]="{'arabic-canvas': currentLanguage=='arabic'}">
+            <div class="main">
+                <span  (click)="offcanvas.close('Close click'); viewAll('All Products', 'allTitle', 'allSub')">{{currentLanguage=="arabic"? 'الرئيسية' : 'Home'}}</span>
+            </div>
+            <div class="box">
+                <div class="main">
+                    <span routerLink="/categoryDetails/mobiles" (click)="offcanvas.close('Close click')" class="text">{{currentLanguage=="arabic"? 'هواتف' : 'Mobiles'}}</span>
+                    <span class="trigger" (click)="openMenuList('mobile-list')"><fa-icon [icon]="downArrow" id="mobile-list-trigger"></fa-icon></span>
+                </div>
+                <div class="menu-list" id="mobile-list">
+                    <div class="box">
+                        <div class="secondary" (click)="openMenuList('mobile-list-brand')">
+                            <span class="text">{{currentLanguage=="arabic"? 'تسوق حسب الماركة' : 'Shop By Brand'}}</span>
+                            <span class="trigger"><fa-icon [icon]="downArrow" id="mobile-list-brand-trigger"></fa-icon></span>
+                        </div>
+                        <div class="third" id="mobile-list-brand">
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobiles', 'brand', 'Apple')">{{currentLanguage=="arabic"? 'أبل' : 'Apple'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobiles', 'brand', 'Samsung')">{{currentLanguage=="arabic"? 'سامسونج' : 'Samsung'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobiles', 'brand', 'Oppo')">{{currentLanguage=="arabic"? 'أوبو' : 'Oppo'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobiles', 'brand', 'Xiaomi')">{{currentLanguage=="arabic"? 'شاومى' : 'Xiaomi'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobiles', 'brand', 'Realme')">{{currentLanguage=="arabic"? 'ريلمى' : 'Realme'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobiles', 'brand', 'Huawei')">{{currentLanguage=="arabic"? 'هواوى' : 'Huawei'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobiles', 'brand', 'Nokia')">{{currentLanguage=="arabic"? 'نوكيا' : 'Nokia'}}</p>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="secondary" (click)="openMenuList('mobile-list-status')">
+                            <span class="text">{{currentLanguage=="arabic"? 'تسوق حسب الحالة' : 'Shop By Status'}}</span>
+                            <span class="trigger"><fa-icon [icon]="downArrow" id="mobile-list-status-trigger"></fa-icon></span>
+                        </div>
+                        <div class="third" id="mobile-list-status">
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobiles', 'status', 'New')">{{currentLanguage=="arabic"? 'جديد' : 'New'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobiles', 'status', 'Zero')">{{currentLanguage=="arabic"? 'زيرو' : 'Zero'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobiles', 'status', 'Used')">{{currentLanguage=="arabic"? 'مستعمل' : 'Used'}}</p>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="secondary" (click)="openMenuList('mobile-list-o-s')">
+                            <span class="text">{{currentLanguage=="arabic"? 'نظام التشغيل' : 'Operating System'}}</span>
+                            <span class="trigger"><fa-icon [icon]="downArrow" id="mobile-list-o-s-trigger"></fa-icon></span>
+                        </div>
+                        <div class="third" id="mobile-list-o-s">
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobiles', 'os', 'iOS')">iOS</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobiles', 'os', 'Android')">{{currentLanguage=="arabic"? 'أندرويد' : 'Android'}}</p>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+    
+            <div class="box">
+                <div class="main">
+                    <span routerLink="/categoryDetails/cases" (click)="offcanvas.close('Close click')" class="text">{{currentLanguage=="arabic"? 'جرابات' : 'Mobile Covers'}}</span>
+                    <span class="trigger" (click)="openMenuList('mobile-cases-list')"><fa-icon [icon]="downArrow" id="mobile-cases-list-trigger"></fa-icon></span>
+                </div>
+                <div class="menu-list" id="mobile-cases-list">
+                    <div class="box">
+                        <div class="secondary" (click)="openMenuList('mobile-cases-list-brand')">
+                            <span class="text">{{currentLanguage=="arabic"? 'تسوق حسب الماركة' : 'Shop By Brand'}}</span>
+                            <span class="trigger"><fa-icon [icon]="downArrow" id="mobile-cases-list-brand-trigger"></fa-icon></span>
+                        </div>
+                        <div class="third" id="mobile-cases-list-brand">
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobile Cases', 'brand', 'Apple')">{{currentLanguage=="arabic"? 'أبل' : 'Apple'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobile Cases', 'brand', 'Samsung')">{{currentLanguage=="arabic"? 'سامسونج' : 'Samsung'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobile Cases', 'brand', 'Oppo')">{{currentLanguage=="arabic"? 'أوبو' : 'Oppo'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobile Cases', 'brand', 'Xiaomi')">{{currentLanguage=="arabic"? 'شاومى' : 'Xiaomi'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobile Cases', 'brand', 'Realme')">{{currentLanguage=="arabic"? 'ريلمى' : 'Realme'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobile Cases', 'brand', 'Huawei')">{{currentLanguage=="arabic"? 'هواوى' : 'Huawei'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobile Cases', 'brand', 'Nokia')">{{currentLanguage=="arabic"? 'نوكيا' : 'Nokia'}}</p>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="secondary" (click)="openMenuList('mobile-cases-list-type')">
+                            <span class="text">{{currentLanguage=="arabic"? 'تسوق حسب النوع' : 'Shop By Type'}}</span>
+                            <span class="trigger"><fa-icon [icon]="downArrow" id="mobile-cases-list-type-trigger"></fa-icon></span>
+                        </div>
+                        <div class="third" id="mobile-cases-list-type">
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobile Cases', 'type', 'Mobiles')">{{currentLanguage=="arabic"? 'جرابات هواتف' : 'Mobiles Covers'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobile Cases', 'type', 'Airpods')">{{currentLanguage=="arabic"? 'جرابات سماعات لاسلكية' : 'Air pods Covers'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobile Cases', 'type', 'Tablets')">{{currentLanguage=="arabic"? 'جرابات تابلت' : 'Tablets Covers'}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="box">
+                <div class="main">
+                    <span routerLink="/categoryDetails/headphones" (click)="offcanvas.close('Close click')" class="text">{{currentLanguage=="arabic"? 'سماعات' : 'Headphones'}}</span>
+                    <span class="trigger" (click)="openMenuList('headphones-small-list')"><fa-icon [icon]="downArrow" id="headphones-small-list-trigger"></fa-icon></span>
+                </div>
+                <div class="menu-list" id="headphones-small-list">
+                    <div class="box">
+                        <div class="secondary" (click)="openMenuList('headphones-small-list-type')">
+                            <span class="text">{{currentLanguage=="arabic"? 'تسوق حسب النوع' : 'Shop By Type'}}</span>
+                            <span class="trigger"><fa-icon [icon]="downArrow" id="headphones-small-list-type-trigger"></fa-icon></span>
+                        </div>
+                        <div class="third" id="headphones-small-list-type">
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Headphones', 'type', 'Airpods')">{{currentLanguage=="arabic"? 'سماعات لاسلكية' : 'Air Pods'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Headphones', 'type', 'Headsets')">{{currentLanguage=="arabic"? 'سماعات رأس' : 'Headsets'}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="box">
+                <div class="main">
+                    <span routerLink="/categoryDetails/cables" (click)="offcanvas.close('Close click')" class="text">{{currentLanguage=="arabic"? 'كابلات' : 'Cables'}}</span>
+                    <span class="trigger" (click)="openMenuList('cables-small-list')"><fa-icon [icon]="downArrow" id="cables-small-list-trigger"></fa-icon></span>
+                </div>
+                <div class="menu-list" id="cables-small-list">
+                    <div class="box">
+                        <div class="secondary" (click)="openMenuList('cables-small-list-type')">
+                            <span class="text">{{currentLanguage=="arabic"? 'تسوق حسب النوع' : 'Shop By Type'}}</span>
+                            <span class="trigger"><fa-icon [icon]="downArrow" id="cables-small-list-type-trigger"></fa-icon></span>
+                        </div>
+                        <div class="third" id="cables-small-list-type">
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Cables', 'type', 'Micro')">{{currentLanguage=="arabic"? 'مايكرو' : 'Micro'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Cables', 'type', 'Type C')">Type C</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Cables', 'type', 'I phone')">I phone</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Cables', 'type', 'Tablet')">{{currentLanguage=="arabic"? 'تابلت' : 'Tablet'}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="box">
+                <div class="main">
+                    <span routerLink="/categoryDetails/flash" (click)="offcanvas.close('Close click')" class="text">{{currentLanguage=="arabic"? 'فلاشات و كروت ميمورى' : 'Flash Drives & Memory'}}</span>
+                    <span class="trigger" (click)="openMenuList('flash-small-list')"><fa-icon [icon]="downArrow" id="flash-small-list-trigger"></fa-icon></span>
+                </div>
+                <div class="menu-list" id="flash-small-list">
+                    <div class="box">
+                        <div class="secondary" (click)="openMenuList('flash-small-list-type')">
+                            <span class="text">{{currentLanguage=="arabic"? 'تسوق حسب النوع' : 'Shop By Type'}}</span>
+                            <span class="trigger"><fa-icon [icon]="downArrow" id="flash-small-list-type-trigger"></fa-icon></span>
+                        </div>
+                        <div class="third" id="flash-small-list-type">
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Flash Drives & Memory', 'type', 'Flash Driver')">{{currentLanguage=="arabic"? 'فلاشات' : 'Flash Drivers'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Flash Drives & Memory', 'type', 'Memory Card')">{{currentLanguage=="arabic"? 'كروت ميمورى' : 'Memory Card'}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="box">
+                <div class="main">
+                    <span routerLink="/categoryDetails/smart" (click)="offcanvas.close('Close click')" class="text">{{currentLanguage=="arabic"? 'أجهزة ذكية' : 'Smart Devices'}}</span>
+                    <span class="trigger" (click)="openMenuList('smart-small-list')"><fa-icon [icon]="downArrow" id="smart-small-list-trigger"></fa-icon></span>
+                </div>
+                <div class="menu-list" id="smart-small-list">
+                    <div class="box">
+                        <div class="secondary" (click)="openMenuList('smart-small-list-type')">
+                            <span class="text">{{currentLanguage=="arabic"? 'تسوق حسب النوع' : 'Shop By Type'}}</span>
+                            <span class="trigger"><fa-icon [icon]="downArrow" id="smart-small-list-type-trigger"></fa-icon></span>
+                        </div>
+                        <div class="third" id="smart-small-list-type">
+                            <p class="text"  (click)="offcanvas.close('Close click'); viewAll('Smart Devices', 'type', 'Smart watches')">{{currentLanguage=="arabic"? 'ساعات ذكية' : 'Smart Watch'}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="box">
+                <div class="main"><span (click)="offcanvas.close('Close click'); viewAll('Others', 'allTitle', 'allSub')">{{currentLanguage=="arabic"? 'أخرى' : 'Others'}}</span></div>
+            </div>
+            
+    
+            <div class="box">
+                <div class="main">
+                    <span *ngIf="currentLanguage=='english'" (click)="offcanvas.close('Close click')" routerLink="auth">
+                        <fa-icon [icon]="login" class="me-2 fs-6"></fa-icon>
+                        {{isAuth ? 'Signup' : 'Login'}}
+                    </span>
+                    <span *ngIf="currentLanguage=='arabic'" (click)="offcanvas.close('Close click')" routerLink="auth">
+                        <fa-icon [icon]="login" class="me-2 fs-6"></fa-icon>
+                        {{isAuth ? 'انشاء حساب' : 'تسجيل الدخول'}}
+                    </span>
+                </div>
+            </div>
+    
+            <div *ngIf="isAuth" class="main" style="color: red; cursor: pointer;" (click)="onLogOut(); offcanvas.close('Close click');">
+                {{currentLanguage=="arabic"? 'تسجيل الخروج' : 'Logout'}}
+            </div>
+    
+            <div class="text-end">
+                <button type="button" class="btn btn-outline-dark" (click)="offcanvas.close('Close click')">{{currentLanguage=="arabic"? 'اغلاق': 'Close'}}</button>
+            </div>
+        </div>
+    </ng-template>
+
+    <!-- arabic menu -->
+    <ng-template #menuArabic let-offcanvas>
+        <div class="offcanvas-header" [dir]="currentLanguage=='arabic'? 'rtl' : 'ltr'">
+            <h4 class="offcanvas-title mb-0" *ngIf="currentLanguage=='arabic'" (click)="offcanvas.close('Close click'); changeLang('fi-us')">English language</h4>
+            <h4 class="offcanvas-title mb-0" *ngIf="currentLanguage=='english'" (click)="offcanvas.close('Close click'); changeLang('fi-eg'); offcanvas.close('Close click')">اللغة العربية</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="offcanvas.dismiss('Cross click')"></button>
+        </div>
+        <div class="offcanvas-body arabic-canvas" [dir]="currentLanguage=='arabic'? 'rtl' : 'ltr'">
+            <div class="main">
+                <span  (click)="offcanvas.close('Close click'); viewAll('All Products', 'allTitle', 'allSub')">{{currentLanguage=="arabic"? 'الرئيسية' : 'Home'}}</span>
+            </div>
+            <div class="box">
+                <div class="main">
+                    <span routerLink="/categoryDetails/mobiles" (click)="offcanvas.close('Close click')" class="text">{{currentLanguage=="arabic"? 'هواتف' : 'Mobiles'}}</span>
+                    <span class="trigger" (click)="openMenuList('mobile-list')"><fa-icon [icon]="downArrow" id="mobile-list-trigger"></fa-icon></span>
+                </div>
+                <div class="menu-list" id="mobile-list">
+                    <div class="box">
+                        <div class="secondary" (click)="openMenuList('mobile-list-brand')">
+                            <span class="text">{{currentLanguage=="arabic"? 'تسوق حسب الماركة' : 'Shop By Brand'}}</span>
+                            <span class="trigger"><fa-icon [icon]="downArrow" id="mobile-list-brand-trigger"></fa-icon></span>
+                        </div>
+                        <div class="third" id="mobile-list-brand">
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobiles', 'brand', 'Apple')">{{currentLanguage=="arabic"? 'أبل' : 'Apple'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobiles', 'brand', 'Samsung')">{{currentLanguage=="arabic"? 'سامسونج' : 'Samsung'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobiles', 'brand', 'Oppo')">{{currentLanguage=="arabic"? 'أوبو' : 'Oppo'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobiles', 'brand', 'Xiaomi')">{{currentLanguage=="arabic"? 'شاومى' : 'Xiaomi'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobiles', 'brand', 'Realme')">{{currentLanguage=="arabic"? 'ريلمى' : 'Realme'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobiles', 'brand', 'Huawei')">{{currentLanguage=="arabic"? 'هواوى' : 'Huawei'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobiles', 'brand', 'Nokia')">{{currentLanguage=="arabic"? 'نوكيا' : 'Nokia'}}</p>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="secondary" (click)="openMenuList('mobile-list-status')">
+                            <span class="text">{{currentLanguage=="arabic"? 'تسوق حسب الحالة' : 'Shop By Status'}}</span>
+                            <span class="trigger"><fa-icon [icon]="downArrow" id="mobile-list-status-trigger"></fa-icon></span>
+                        </div>
+                        <div class="third" id="mobile-list-status">
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobiles', 'status', 'New')">{{currentLanguage=="arabic"? 'جديد' : 'New'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobiles', 'status', 'Zero')">{{currentLanguage=="arabic"? 'زيرو' : 'Zero'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobiles', 'status', 'Used')">{{currentLanguage=="arabic"? 'مستعمل' : 'Used'}}</p>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="secondary" (click)="openMenuList('mobile-list-o-s')">
+                            <span class="text">{{currentLanguage=="arabic"? 'نظام التشغيل' : 'Operating System'}}</span>
+                            <span class="trigger"><fa-icon [icon]="downArrow" id="mobile-list-o-s-trigger"></fa-icon></span>
+                        </div>
+                        <div class="third" id="mobile-list-o-s">
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobiles', 'os', 'iOS')">iOS</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobiles', 'os', 'Android')">{{currentLanguage=="arabic"? 'أندرويد' : 'Android'}}</p>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+    
+            <div class="box">
+                <div class="main">
+                    <span routerLink="/categoryDetails/cases" (click)="offcanvas.close('Close click')" class="text">{{currentLanguage=="arabic"? 'جرابات' : 'Mobile Covers'}}</span>
+                    <span class="trigger" (click)="openMenuList('mobile-cases-list')"><fa-icon [icon]="downArrow" id="mobile-cases-list-trigger"></fa-icon></span>
+                </div>
+                <div class="menu-list" id="mobile-cases-list">
+                    <div class="box">
+                        <div class="secondary" (click)="openMenuList('mobile-cases-list-brand')">
+                            <span class="text">{{currentLanguage=="arabic"? 'تسوق حسب الماركة' : 'Shop By Brand'}}</span>
+                            <span class="trigger"><fa-icon [icon]="downArrow" id="mobile-cases-list-brand-trigger"></fa-icon></span>
+                        </div>
+                        <div class="third" id="mobile-cases-list-brand">
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobile Cases', 'brand', 'Apple')">{{currentLanguage=="arabic"? 'أبل' : 'Apple'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobile Cases', 'brand', 'Samsung')">{{currentLanguage=="arabic"? 'سامسونج' : 'Samsung'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobile Cases', 'brand', 'Oppo')">{{currentLanguage=="arabic"? 'أوبو' : 'Oppo'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobile Cases', 'brand', 'Xiaomi')">{{currentLanguage=="arabic"? 'شاومى' : 'Xiaomi'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobile Cases', 'brand', 'Realme')">{{currentLanguage=="arabic"? 'ريلمى' : 'Realme'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobile Cases', 'brand', 'Huawei')">{{currentLanguage=="arabic"? 'هواوى' : 'Huawei'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobile Cases', 'brand', 'Nokia')">{{currentLanguage=="arabic"? 'نوكيا' : 'Nokia'}}</p>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="secondary" (click)="openMenuList('mobile-cases-list-type')">
+                            <span class="text">{{currentLanguage=="arabic"? 'تسوق حسب النوع' : 'Shop By Type'}}</span>
+                            <span class="trigger"><fa-icon [icon]="downArrow" id="mobile-cases-list-type-trigger"></fa-icon></span>
+                        </div>
+                        <div class="third" id="mobile-cases-list-type">
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobile Cases', 'type', 'Mobiles')">{{currentLanguage=="arabic"? 'جرابات هواتف' : 'Mobiles Covers'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobile Cases', 'type', 'Airpods')">{{currentLanguage=="arabic"? 'جرابات سماعات لاسلكية' : 'Air pods Covers'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Mobile Cases', 'type', 'Tablets')">{{currentLanguage=="arabic"? 'جرابات تابلت' : 'Tablets Covers'}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="box">
+                <div class="main">
+                    <span routerLink="/categoryDetails/headphones" (click)="offcanvas.close('Close click')" class="text">{{currentLanguage=="arabic"? 'سماعات' : 'Headphones'}}</span>
+                    <span class="trigger" (click)="openMenuList('headphones-small-list')"><fa-icon [icon]="downArrow" id="headphones-small-list-trigger"></fa-icon></span>
+                </div>
+                <div class="menu-list" id="headphones-small-list">
+                    <div class="box">
+                        <div class="secondary" (click)="openMenuList('headphones-small-list-type')">
+                            <span class="text">{{currentLanguage=="arabic"? 'تسوق حسب النوع' : 'Shop By Type'}}</span>
+                            <span class="trigger"><fa-icon [icon]="downArrow" id="headphones-small-list-type-trigger"></fa-icon></span>
+                        </div>
+                        <div class="third" id="headphones-small-list-type">
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Headphones', 'type', 'Airpods')">{{currentLanguage=="arabic"? 'سماعات لاسلكية' : 'Air Pods'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Headphones', 'type', 'Headsets')">{{currentLanguage=="arabic"? 'سماعات رأس' : 'Headsets'}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="box">
+                <div class="main">
+                    <span routerLink="/categoryDetails/cables" (click)="offcanvas.close('Close click')" class="text">{{currentLanguage=="arabic"? 'كابلات' : 'Cables'}}</span>
+                    <span class="trigger" (click)="openMenuList('cables-small-list')"><fa-icon [icon]="downArrow" id="cables-small-list-trigger"></fa-icon></span>
+                </div>
+                <div class="menu-list" id="cables-small-list">
+                    <div class="box">
+                        <div class="secondary" (click)="openMenuList('cables-small-list-type')">
+                            <span class="text">{{currentLanguage=="arabic"? 'تسوق حسب النوع' : 'Shop By Type'}}</span>
+                            <span class="trigger"><fa-icon [icon]="downArrow" id="cables-small-list-type-trigger"></fa-icon></span>
+                        </div>
+                        <div class="third" id="cables-small-list-type">
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Cables', 'type', 'Micro')">{{currentLanguage=="arabic"? 'مايكرو' : 'Micro'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Cables', 'type', 'Type C')">Type C</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Cables', 'type', 'I phone')">I phone</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Cables', 'type', 'Tablet')">{{currentLanguage=="arabic"? 'تابلت' : 'Tablet'}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="box">
+                <div class="main">
+                    <span routerLink="/categoryDetails/flash" (click)="offcanvas.close('Close click')" class="text">{{currentLanguage=="arabic"? 'فلاشات و كروت ميمورى' : 'Flash Drives & Memory'}}</span>
+                    <span class="trigger" (click)="openMenuList('flash-small-list')"><fa-icon [icon]="downArrow" id="flash-small-list-trigger"></fa-icon></span>
+                </div>
+                <div class="menu-list" id="flash-small-list">
+                    <div class="box">
+                        <div class="secondary" (click)="openMenuList('flash-small-list-type')">
+                            <span class="text">{{currentLanguage=="arabic"? 'تسوق حسب النوع' : 'Shop By Type'}}</span>
+                            <span class="trigger"><fa-icon [icon]="downArrow" id="flash-small-list-type-trigger"></fa-icon></span>
+                        </div>
+                        <div class="third" id="flash-small-list-type">
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Flash Drives & Memory', 'type', 'Flash Driver')">{{currentLanguage=="arabic"? 'فلاشات' : 'Flash Drivers'}}</p>
+                            <p class="text" (click)="offcanvas.close('Close click'); viewAll('Flash Drives & Memory', 'type', 'Memory Card')">{{currentLanguage=="arabic"? 'كروت ميمورى' : 'Memory Card'}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="box">
+                <div class="main">
+                    <span routerLink="/categoryDetails/smart" (click)="offcanvas.close('Close click')" class="text">{{currentLanguage=="arabic"? 'أجهزة ذكية' : 'Smart Devices'}}</span>
+                    <span class="trigger" (click)="openMenuList('smart-small-list')"><fa-icon [icon]="downArrow" id="smart-small-list-trigger"></fa-icon></span>
+                </div>
+                <div class="menu-list" id="smart-small-list">
+                    <div class="box">
+                        <div class="secondary" (click)="openMenuList('smart-small-list-type')">
+                            <span class="text">{{currentLanguage=="arabic"? 'تسوق حسب النوع' : 'Shop By Type'}}</span>
+                            <span class="trigger"><fa-icon [icon]="downArrow" id="smart-small-list-type-trigger"></fa-icon></span>
+                        </div>
+                        <div class="third" id="smart-small-list-type">
+                            <p class="text"  (click)="offcanvas.close('Close click'); viewAll('Smart Devices', 'type', 'Smart watches')">{{currentLanguage=="arabic"? 'ساعات ذكية' : 'Smart Watch'}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="box">
+                <div class="main"><span (click)="offcanvas.close('Close click'); viewAll('Others', 'allTitle', 'allSub')">{{currentLanguage=="arabic"? 'أخرى' : 'Others'}}</span></div>
+            </div>
+            
+    
+            <div class="box">
+                <div class="main">
+                    <span *ngIf="currentLanguage=='english'" (click)="offcanvas.close('Close click')" routerLink="auth">
+                        <fa-icon [icon]="login" class="ms-2 fs-6"></fa-icon>
+                        {{isAuth ? 'Signup' : 'Login'}}
+                    </span>
+                    <span *ngIf="currentLanguage=='arabic'" (click)="offcanvas.close('Close click')" routerLink="auth">
+                        <fa-icon [icon]="login" class="ms-2 fs-6"></fa-icon>
+                        {{isAuth ? 'انشاء حساب' : 'تسجيل الدخول'}}
+                    </span>
+                </div>
+            </div>
+    
+            <div *ngIf="isAuth" class="main" style="color: red; cursor: pointer;" (click)="onLogOut(); offcanvas.close('Close click');">
+                {{currentLanguage=="arabic"? 'تسجيل الخروج' : 'Logout'}}
+            </div>
+    
+            <div class="text-end">
+                <button type="button" class="btn btn-outline-dark" (click)="offcanvas.close('Close click')">{{currentLanguage=="arabic"? 'اغلاق': 'Close'}}</button>
+            </div>
+        </div>
+    </ng-template>
+</div>
+
+

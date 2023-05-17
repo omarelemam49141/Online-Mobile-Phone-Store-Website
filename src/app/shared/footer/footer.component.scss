@@ -1,0 +1,49 @@
+$main-color: #b51cb0;
+$main-color-bg-dark: #310052;
+$main-color-bg: hsl(261.64deg, 34.46%, 34.71%);
+
+.footer {
+    background-color: #3b383e;
+    padding: 20px;
+    color: white;
+}
+
+p {
+    font-size: 13px;
+}
+
+a {
+    color: #aa7aff;
+    text-decoration: none;
+}
+
+.social {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.social a {
+    color: white;
+    text-decoration: none;
+    background-color: $main-color-bg;
+    width: 30px;
+    height: 30px;
+    margin-right: 15px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 17px;
+    transition: all 0.3s;
+}
+
+a.facebook:hover {
+    background-color: #4267B2;
+}
+
+a.instagram:hover {
+    background-color: #C13584;
+}
+

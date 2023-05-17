@@ -1,0 +1,13 @@
+<div [ngClass]="{'arabic' : currentLanguage=='arabic'}">
+    <h1 class="mb-4" *ngIf="productSubCategory == ''">{{productCategory}}</h1>
+    <h1 class="mb-4" *ngIf="productSubCategory != ''">{{productCategory}} - {{productSubCategory}}</h1>
+    <div class="sorting-heading d-flex justify-content-between flex-wrap mb-5 align-items-center">
+        <p class="lead" *ngIf="currentLanguage=='english'"><span class="fw-bold">{{amountOfItem}}</span> products found</p>
+        <p class="lead" *ngIf="currentLanguage=='arabic'">عدد المنتجات <span class="fw-bold">{{amountOfItem}}</span></p>
+        <select name="sorting" id="sorting" (change)="sortProducts($event)">
+            <option value="newest" [selected]="selectValue == 'newest'">{{currentLanguage=='arabic' ? 'رتب حسب الأحدث' : 'Sort by Newest'}}</option>
+            <option value="highest" [selected]="selectValue == 'highest'">{{currentLanguage=='arabic' ? 'رتب حسب الأعلى سعرا' : 'Sort by highest price'}}</option>
+            <option value="lowest" [selected]="selectValue == 'lowest'">{{currentLanguage=='arabic' ? 'رتب حسب الأقل سعرا' : 'Sort by lowest price'}}</option>
+        </select>
+    </div>
+</div>

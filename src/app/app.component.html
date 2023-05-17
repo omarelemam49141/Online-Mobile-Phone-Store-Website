@@ -1,0 +1,9 @@
+<div class="all-view" [dir]="currentLanguage=='arabic'? 'rtl':'ltr'" [ngClass]="{'arabicLang': currentLanguage=='arabic'}">
+  <app-header></app-header>
+  <div class="container text-center all-content mb-5">
+    <app-spinner *ngIf="isLoading" class="mt-5"></app-spinner>
+    <router-outlet *ngIf="!isLoading"></router-outlet>
+  </div>
+  <app-footer></app-footer>
+</div>
+

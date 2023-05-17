@@ -1,0 +1,180 @@
+<!-- admin -->
+<div class="row" *ngIf="mode=='admin' && loading">
+  <app-spinner class="d-flex justify-content-center mt-5 mb-5"></app-spinner>
+</div>
+
+<div class="row" *ngIf="mode=='admin' && !loading">
+    <div class="col-10 text-center mt-5 m-auto" *ngIf="previousOrders.length == 0">
+        <h3 class="text-muted">No previous orders to review</h3>
+    </div>
+
+    <div *ngIf=" previousOrders.length != 0" >
+        <h2>Pending Orders</h2>
+        <ul class="responsive-table">
+          <li class="table-header fw-bold">
+            <div class="row">
+              <div class="col-12 col-md-3">Customer Name</div>
+              <div class="col-12 col-md-2">Items</div>
+              <div class="col-12 col-md-2">Cart price</div>
+              <div class="col-12 col-md-3">Date</div>
+              <div class="col-12 col-md-2">Details</div>
+            </div>
+          </li>
+          <li class="table-row" *ngFor="let order of previousOrders">
+            <div class="row align-items-center">
+              <div class="col col-12 col-md-3" data-label="Customer Name">{{order.client}}</div>
+              <div class="col col-12 col-md-2" data-label="Items">{{order.cartProducts.length}}</div>
+              <div class="col col-12 col-md-2" data-label="Cart price">{{getCartPrice(order.cartProducts)}} LE</div>
+              <div class="col col-12 col-md-3" data-label="Date">{{getDuration(order.approvedDate)}}</div>
+              <div class="col col-12 col-md-2" data-label="Details"><fa-icon (click)="openCartDetails(content, order)" class="fs-3 btn showIcon" data-bs-toggle="modal" data-bs-target="#exampleModal" [icon]="faShow"></fa-icon></div>
+            </div>
+          </li>
+        </ul>
+    </div>
+</div>
+
+<!-- user -->
+<div class="row" *ngIf="mode=='user'">
+  <ul class="orders-listing list-unstyled d-flex mt-4 mb-0 ps-0">
+    <li><button class="pending" (click)="pendingOrders()" [ngClass]="{'active': ordersType=='pending'}" [disabled]="ordersType=='pending' || loading">Pending</button></li>
+    <li><button class="accepted" (click)="acceptedOrders()" [ngClass]="{'active': ordersType=='accepted'}" [disabled]="ordersType=='accepted' || loading">Accepted</button></li>
+    <li><button class="refused" (click)="refusedOrders()" [ngClass]="{'active': ordersType=='refused'}" [disabled]="ordersType=='refused' || loading">Refused</button></li>
+  </ul>
+
+  <div class="orders" [ngStyle]="{backgroundColor: settingOrdersBacground()}">
+    <div class="content" *ngIf="!loading">
+      <div class="col-10 text-center mt-5 mb-5 m-auto" *ngIf="(carts.length == 0 && ordersType=='pending') || (refusedOrdersList.length == 0 && ordersType=='refused')">
+        <h3 class="text-muted">No {{ordersType}} orders</h3>
+      </div>
+  
+      <div *ngIf="carts.length != 0" >
+          <h2>{{ordersType + ' orders' | uppercase}}</h2>
+          <ul class="responsive-table">
+            <li class="table-header fw-bold">
+              <div class="row">
+                <div class="col-12 col-md-4">Order time</div>
+                <div class="col-12 col-md-3">Items</div>
+                <div class="col-12 col-md-3">Cart price</div>
+                <div class="col-12 col-md-2">Details</div>
+              </div>
+            </li>
+            <li class="table-row" *ngFor="let cart of carts">
+              <div class="row align-items-center">
+                <div class="col col-12 col-md-4" data-label="Date">{{getDuration(cart.date)}}</div>
+                <div class="col col-12 col-md-3" data-label="Items">{{cart.cartProducts.length}}</div>
+                <div class="col col-12 col-md-3" data-label="Cart price">{{getCartPrice(cart.cartProducts)}} LE</div>
+                <div class="col col-12 col-md-2" data-label="Details"><fa-icon (click)="openCartDetails(content, cart)" class="fs-3 btn showIcon" data-bs-toggle="modal" data-bs-target="#exampleModal" [icon]="faShow"></fa-icon></div>
+              </div>
+            </li>
+          </ul>
+      </div>
+
+      <div *ngIf="acceptedOrdersList.length != 0" >
+        <h2>{{ordersType + ' orders' | uppercase}}</h2>
+        <ul class="responsive-table">
+          <li class="table-header fw-bold">
+            <div class="row">
+              <div class="col-12 col-md-4">Response time</div>
+              <div class="col-12 col-md-3">Items</div>
+              <div class="col-12 col-md-3">Cart price</div>
+              <div class="col-12 col-md-2">Details</div>
+            </div>
+          </li>
+          <li class="table-row" *ngFor="let acceptedOrder of acceptedOrdersList">
+            <div class="row align-items-center">
+              <div class="col col-12 col-md-4" data-label="Date">{{getDuration(acceptedOrder.approvedDate)}}</div>
+              <div class="col col-12 col-md-3" data-label="Items">{{acceptedOrder.cartProducts.length}}</div>
+              <div class="col col-12 col-md-3" data-label="Cart price">{{getCartPrice(acceptedOrder.cartProducts)}} LE</div>
+              <div class="col col-12 col-md-2" data-label="Details"><fa-icon (click)="openCartDetails(content, acceptedOrder)" class="fs-3 btn showIcon" data-bs-toggle="modal" data-bs-target="#exampleModal" [icon]="faShow"></fa-icon></div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div *ngIf="refusedOrdersList.length != 0" >
+        <h2>{{ordersType + ' orders' | uppercase}}</h2>
+        <ul class="responsive-table">
+          <li class="table-header fw-bold">
+            <div class="row">
+              <div class="col-12 col-md-4">Response time</div>
+              <div class="col-12 col-md-3">Items</div>
+              <div class="col-12 col-md-3">Cart price</div>
+              <div class="col-12 col-md-2">Details</div>
+            </div>
+          </li>
+          <li class="table-row" *ngFor="let refusedOrder of refusedOrdersList">
+            <div class="row align-items-center">
+              <div class="col col-12 col-md-4" data-label="Date">{{getDuration(refusedOrder.refusedDate)}}</div>
+              <div class="col col-12 col-md-3" data-label="Items">{{refusedOrder.cartProducts.length}}</div>
+              <div class="col col-12 col-md-3" data-label="Cart price">{{getCartPrice(refusedOrder.cartProducts)}} LE</div>
+              <div class="col col-12 col-md-2" data-label="Details"><fa-icon (click)="openCartDetails(content, refusedOrder)" class="fs-3 btn showIcon" data-bs-toggle="modal" data-bs-target="#exampleModal" [icon]="faShow"></fa-icon></div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <app-form-spinner *ngIf="loading" class="d-flex justify-content-center mt-5 mb-5"></app-form-spinner>
+  </div>
+</div>
+
+<!-- Cart Details Modal -->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">{{ordertDetails.client}} order <i>({{ordersType}} since 
+      {{ordersType=='pending'? getDuration(ordertDetails.date) : ordersType=='refused'? getDuration(ordertDetails.refusedDate) : getDuration(ordertDetails.approvedDate)}})
+    </i></h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    
+    <div class="card rounded-3 mb-4" *ngFor="let productDetails of ordertDetails.cartProducts">
+      <div class="card-body p-4">
+        <div class="row d-flex justify-content-between align-items-center">
+          <div class="col-lg-2 text-center">
+              <img
+              src="{{productDetails.product.image}}"
+              class="img-fluid rounded-3 image" alt="image">
+          </div>
+          <div class="col-lg-4">
+              <p class="lead fw-normal mb-2">{{productDetails.product.title}}</p>
+              <p><span class="text-muted">Item Price: </span><span class="badge text-bg-success">{{productDetails.product.price}} LE</span></p>
+          </div>
+
+          <div class="amount d-flex col-lg-3">
+            <p><span class="text-muted">Item amount :</span><span class="fw-bold ms-1">{{productDetails.quantity}}</span></p>
+          </div>
+
+          <div class="col-lg-2 offset-lg-1 mt-2 mt-lg-0">
+              <h5 class="mb-0 fw-bold">{{(productDetails.quantity * productDetails.product.price).toFixed(2)}} LE</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-4">
+      <div class="card-body p-4 d-flex justify-content-between flex-wrap">
+          <h5>Total Amount</h5>
+          <h5 class="fw-bold">{{getCartPrice(ordertDetails.cartProducts)}} LE</h5>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body p-4 d-flex flex-wrap flex-column justify-content-center">
+          <div class="text-muted lead text-center" *ngIf="mode=='admin'"><i>No review given yet</i></div>
+          <div class="text-muted lead text-center" *ngIf="mode=='user' && ordersType=='pending'"><i>No response yet</i></div> 
+          <div class="lead text-danger fw-bold text-center" *ngIf="mode=='user' && ordersType=='refused'">{{ordertDetails.message}}</div>
+          <div class="lead text-success fw-bold text-center" *ngIf="mode=='user' && ordersType=='accepted'">Order is on the way</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" #closeBtn (click)="modal.close('Close click')" [disabled]="orderLoading || removeCartLoading">Close</button>
+  </div>
+</ng-template>
+
+<div class="row" *ngIf="loading">
+    
+</div>
+

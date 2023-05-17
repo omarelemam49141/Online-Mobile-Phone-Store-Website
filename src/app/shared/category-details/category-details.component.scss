@@ -1,0 +1,196 @@
+:host {
+    --font: 'Raleway', sans-serif;
+}
+
+* {
+    font-family: var(--font);
+}
+
+
+.brands p {
+    font-size: 16px;
+}
+
+.mobiles, .cases {
+    font-family: 'Raleway', sans-serif;
+    .heading {
+        .title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .image {
+                width: 60px;
+                padding: 8px;
+                background-color: #eee;
+                border-radius: 50%;
+                border: 2px solid #ddd;
+                margin-right: 20px;
+            }
+            .text {
+                font-size: 20px;
+                font-weight: 600;
+            }
+        }
+
+        .view-all {
+            font-weight: 500;
+            font-size: 16px;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    .brand-header {
+        margin-top: 50px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+    }
+
+    .brands, .o-s, .status {
+        margin-top: 30px;
+        .box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            cursor: pointer;
+            &:hover .img-bg img{    
+                transform: scale(1.1);
+            }
+            .img-bg {
+                width: 140px;
+                height: 140px;
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 15px;
+                background-color: white;
+                border-radius: 50%;
+                box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+                overflow: hidden;
+            }
+            .tablet-bg {
+                padding: 40px;
+            }
+            .img-bg img {
+                transition: all 0.3s;
+            }
+        }
+        p {
+            font-weight: 500;
+            margin-top: 15px;
+        }
+    }
+}
+
+@media (max-width: 575px) {
+    .img-bg {
+        width: 100px !important;
+        height: 100px !important;
+    }
+    .tablet-bg {
+        padding: 30px !important;
+    }
+}
+
+//arabic
+//arabic
+//arabic
+.arabic{
+    .mobiles, .cases {
+        font-family: 'Raleway', sans-serif;
+        .heading {
+            .title {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                .image {
+                    width: 60px;
+                    padding: 8px;
+                    background-color: #eee;
+                    border-radius: 50%;
+                    border: 2px solid #ddd;
+                    margin-right: 0;
+                    margin-left: 20px;
+                }
+                .text {
+                    font-size: 20px;
+                    font-weight: 600;
+                }
+            }
+
+            .view-all {
+                font-weight: 500;
+                font-size: 16px;
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        .brand-header {
+            margin-top: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .title {
+                font-size: 20px;
+                font-weight: 600;
+            }
+        }
+
+        .brands, .o-s, .status {
+            margin-top: 30px;
+            .box {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                cursor: pointer;
+                &:hover .img-bg img{    
+                    transform: scale(1.1);
+                }
+                .img-bg {
+                    width: 140px;
+                    height: 140px;
+                    border-radius: 50%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 15px;
+                    background-color: white;
+                    border-radius: 50%;
+                    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+                    overflow: hidden;
+                }
+                .tablet-bg {
+                    padding: 40px;
+                }
+                .img-bg img {
+                    transition: all 0.3s;
+                }
+            }
+            p {
+                font-weight: 500;
+                margin-top: 15px;
+            }
+        }
+    }
+
+    @media (max-width: 575px) {
+        .img-bg {
+            width: 100px !important;
+            height: 100px !important;
+        }
+        .tablet-bg {
+            padding: 30px !important;
+        }
+    }
+}

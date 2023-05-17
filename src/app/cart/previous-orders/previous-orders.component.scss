@@ -1,0 +1,132 @@
+@media (max-width: 991px) {
+    .image {
+        max-height: 300px;
+    }
+}
+
+.orders-listing li button {
+    background-color: #eee;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition:all 0.3s ease;
+    font-size: 18px;
+    border: none;
+    color: black;
+}
+
+.orders-listing li button.pending:hover {
+    background-color: #b6cee7;
+} 
+
+.orders-listing li button.accepted:hover {
+    background-color: #b6e3e7;
+} 
+
+.orders-listing li button.refused:hover {
+    background-color: #e7b6b6;
+}
+
+.orders-listing li button:disabled:hover {
+    background-color: #eee;
+    cursor: auto;
+}
+
+.orders-listing li button:disabled {
+    color: #ddd;
+}
+
+.orders-listing li button.active {
+    color: white;
+    cursor: auto;
+}
+
+.orders-listing li button.pending.active {
+    background-color: #b6cee7;
+}
+
+.orders-listing li button.accepted.active {
+    background-color: #b6e3e7;
+}
+
+.orders-listing li button.refused.active {
+    background-color: #e7b6b6;
+}
+
+.orders {
+    background-color: #b6cee7;
+}
+
+.orders h2 {
+    color: white;
+}
+
+h2 {
+    font-size: 26px;
+    margin: 20px 0;
+    text-align: center;
+    small {
+        font-size: 0.5em;
+    }
+}
+
+.responsive-table {
+    padding-left: 0;
+    list-style-type: none;
+    li {
+        border-radius: 3px;
+        padding: 25px 30px;
+        justify-content: space-between;
+        margin-bottom: 25px;
+    }
+    .table-header {
+        color: white;
+        background-color: #95A5A6;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+    }
+    .table-row {
+        background-color: #ffffff;
+        box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.1);
+        .showIcon {
+            color: #95a5a6;
+            transition: all 0.3s;
+            width: fit-content;
+            margin: auto;
+        }
+        .showIcon:hover {
+            color: #0d6efd;
+        }
+
+        .actionBtn {
+            width: fit-content;
+            margin: auto;
+        }
+
+    }
+
+    @media all and (max-width: 767px) {
+        .table-header {
+            display: none;
+        }
+        .table-row{
+        
+        }
+        li {
+            display: block;
+        }
+
+        .col {
+            display: flex;
+            flex-direction: column;
+            padding: 10px 30px 10px 0;
+            text-align: center;
+            &:before {
+                position: relative;
+                color: #6C7A89;
+                content: attr(data-label);
+                flex-basis: 50%;
+            }
+        }
+    }
+}

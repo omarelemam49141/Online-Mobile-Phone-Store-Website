@@ -1,0 +1,403 @@
+<div [ngClass]="{'arabic': currentLanguage=='arabic'}">    
+    <div class="mobiles" *ngIf="categoryName=='mobiles'">
+        <div class="heading d-flex justify-content-between align-items-center">
+            <div class="title">
+                <div class="image">
+                    <img src="../../../assets/images/mobile.png" class="img-fluid" alt="">
+                </div>
+                <div class="text">{{currentLanguage=="arabic"? 'هواتف' : 'Mobiles'}}</div>
+            </div>
+
+            <div class="view-all">
+                <a (click)="viewAll('Mobiles', 'allTitle', 'allSub')">{{currentLanguage=='arabic' ? 'أظهر الكل' : 'View All'}}</a>
+            </div>
+        </div>
+
+        <div class="brand-header">
+            <div class="title">
+                {{currentLanguage=="arabic"? 'تسوق حسب الماركة' : 'Shop By Brand'}}
+            </div>
+        </div>
+
+        <div class="brands">
+            <div class="row">
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 box" (click)="viewAll('Mobiles', 'brand', 'Apple')">
+                    <div class="img-bg">
+                        <img src="../../../assets/images/Apple-Logo.png" class="img-fluid" alt="apple-logo">
+                    </div>
+                    <p>{{currentLanguage=="arabic"? 'أبل' : 'Apple'}}</p>            
+                </div>
+        
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 box" (click)="viewAll('Mobiles', 'brand', 'Samsung')">
+                    <div class="img-bg">
+                        <img src="../../../assets/images/Samsung-Logo.png" class="img-fluid" alt="samsung-logo">
+                    </div>
+                    <p>{{currentLanguage=="arabic"? 'سامسونج' : 'Samsung'}}</p>            
+                </div>
+        
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 box" (click)="viewAll('Mobiles', 'brand', 'Oppo')">
+                    <div class="img-bg">
+                        <img src="../../../assets/images/Oppo-logo.png" class="img-fluid" alt="oppo-logo">
+                    </div>
+                    <p>{{currentLanguage=="arabic"? 'أوبو' : 'Oppo'}}</p>            
+                </div>
+        
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 box" (click)="viewAll('Mobiles', 'brand', 'Xiaomi')">
+                    <div class="img-bg">
+                        <img src="../../../assets/images/Xiaomi-logo.png" class="img-fluid" alt="Xiaomi-logo">
+                    </div>
+                    <p>{{currentLanguage=="arabic"? 'شاومى' : 'Xiaomi'}}</p>            
+                </div>
+        
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 box" (click)="viewAll('Mobiles', 'brand', 'Realme')">
+                    <div class="img-bg">
+                        <img src="../../../assets/images/Realme-Logo.png" class="img-fluid" alt="Realme-logo">
+                    </div>
+                    <p>{{currentLanguage=="arabic"? 'ريلمى' : 'Realme'}}</p>            
+                </div>
+        
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 box" (click)="viewAll('Mobiles', 'brand', 'Huawei')">
+                    <div class="img-bg">
+                        <img src="../../../assets/images/Huawei-logo.png" class="img-fluid" alt="Huawei-logo">
+                    </div>
+                    <p>{{currentLanguage=="arabic"? 'هواوى' : 'Huawei'}}</p>            
+                </div>
+        
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 box" (click)="viewAll('Mobiles', 'brand', 'Nokia')">
+                    <div class="img-bg">
+                        <img src="../../../assets/images/nokia-logo.svg" class="img-fluid" alt="Nokia-logo">
+                    </div>
+                    <p>{{currentLanguage=="arabic"? 'نوكيا' : 'Nokia'}}</p>            
+                </div>
+            </div>
+        </div>
+
+        <div class="brand-header">
+            <div class="title">
+                {{currentLanguage=="arabic"? 'تسوق حسب الحالة' : 'Shop By Status'}}
+            </div>
+        </div>
+
+        <div class="status">
+            <div class="row">
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 box" (click)="viewAll('Mobiles', 'status', 'New')">
+                    <div class="img-bg">
+                        <img src="../../../assets/images/new-logo.webp" class="img-fluid" alt="New-logo">
+                    </div>
+                    <p>{{currentLanguage=="arabic"? 'جديد' : 'New'}}</p>            
+                </div>
+        
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 box" (click)="viewAll('Mobiles', 'status', 'Zero')">
+                    <div class="img-bg">
+                        <img src="../../../assets/images/zero-logo.png" class="img-fluid" alt="Zero-logo">
+                    </div>
+                    <p>{{currentLanguage=="arabic"? 'زيرو' : 'Zero'}}</p>            
+                </div>
+        
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 box" (click)="viewAll('Mobiles', 'status', 'Used')">
+                    <div class="img-bg">
+                        <img src="../../../assets/images/used-logo.png" class="img-fluid" alt="Used-logo">
+                    </div>
+                    <p>{{currentLanguage=="arabic"? 'مستعمل' : 'Used'}}</p>            
+                </div>
+            </div>
+        </div>
+
+        <div class="brand-header">
+            <div class="title">
+                {{currentLanguage=="arabic"? 'نظام التشغيل' : 'Operating System'}}
+            </div>
+        </div>
+
+        <div class="o-s">
+            <div class="row">
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 box" (click)="viewAll('Mobiles', 'os', 'iOS')">
+                    <div class="img-bg">
+                        <img src="../../../assets/images/IOS-Logo.png" class="img-fluid" alt="iOS-logo">
+                    </div>
+                    <p>iOS</p>            
+                </div>
+        
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 box" (click)="viewAll('Mobiles', 'os', 'Android')">
+                    <div class="img-bg">
+                        <img src="../../../assets/images/Android-Logo.png" class="img-fluid" alt="Android-logo">
+                    </div>
+                    <p>{{currentLanguage=="arabic"? 'أندرويد' : 'Android'}}</p>            
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- start cases -->
+    <div class="cases" *ngIf="categoryName=='cases'">
+        <div class="heading d-flex justify-content-between align-items-center">
+            <div class="title">
+                <div class="image">
+                    <img src="../../../assets/images/mobile.png" class="img-fluid" alt="">
+                </div>
+                <div class="text">{{currentLanguage=="arabic"? 'جرابات' : 'Mobile Covers'}}</div>
+            </div>
+
+            <div class="view-all">
+                <a (click)="viewAll('Mobile Cases', 'allTitle', 'allSub')">{{currentLanguage=='arabic' ? 'أظهر الكل' : 'View All'}}</a>
+            </div>
+        </div>
+
+        <div class="brand-header">
+            <div class="title">
+                {{currentLanguage=="arabic"? 'تسوق حسب الماركة' : 'Shop By Brand'}}
+            </div>
+        </div>
+
+        <div class="brands">
+            <div class="row">
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 box" (click)="viewAll('Mobile Cases', 'brand', 'Apple')">
+                    <div class="img-bg">
+                        <img src="../../../assets/images/Apple-Logo.png" class="img-fluid" alt="apple-logo">
+                    </div>
+                    <p>{{currentLanguage=="arabic"? 'أبل' : 'Apple'}}</p>            
+                </div>
+        
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 box" (click)="viewAll('Mobile Cases', 'brand', 'Samsung')">
+                    <div class="img-bg">
+                        <img src="../../../assets/images/Samsung-Logo.png" class="img-fluid" alt="samsung-logo">
+                    </div>
+                    <p>{{currentLanguage=="arabic"? 'سامسونج' : 'Samsung'}}</p>            
+                </div>
+        
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 box" (click)="viewAll('Mobile Cases', 'brand', 'Oppo')">
+                    <div class="img-bg">
+                        <img src="../../../assets/images/Oppo-logo.png" class="img-fluid" alt="oppo-logo">
+                    </div>
+                    <p>{{currentLanguage=="arabic"? 'أوبو' : 'Oppo'}}</p>            
+                </div>
+        
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 box" (click)="viewAll('Mobile Cases', 'brand', 'Xiaomi')">
+                    <div class="img-bg">
+                        <img src="../../../assets/images/Xiaomi-logo.png" class="img-fluid" alt="Xiaomi-logo">
+                    </div>
+                    <p>{{currentLanguage=="arabic"? 'شاومى' : 'Xiaomi'}}</p>            
+                </div>
+        
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 box" (click)="viewAll('Mobile Cases', 'brand', 'Realme')">
+                    <div class="img-bg">
+                        <img src="../../../assets/images/Realme-Logo.png" class="img-fluid" alt="Realme-logo">
+                    </div>
+                    <p>{{currentLanguage=="arabic"? 'ريلمى' : 'Realme'}}</p>            
+                </div>
+        
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 box" (click)="viewAll('Mobile Cases', 'brand', 'Huawei')">
+                    <div class="img-bg">
+                        <img src="../../../assets/images/Huawei-logo.png" class="img-fluid" alt="Huawei-logo">
+                    </div>
+                    <p>{{currentLanguage=="arabic"? 'هواوى' : 'Huawei'}}</p>            
+                </div>
+        
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 box" (click)="viewAll('Mobile Cases', 'brand', 'Nokia')">
+                    <div class="img-bg">
+                        <img src="../../../assets/images/nokia-logo.svg" class="img-fluid" alt="Nokia-logo">
+                    </div>
+                    <p>{{currentLanguage=="arabic"? 'نوكيا' : 'Nokia'}}</p>            
+                </div>
+            </div>
+        </div>
+
+        <div class="brand-header">
+            <div class="title">
+                {{currentLanguage=="arabic"? 'تسوق حسب النوع' : 'Shop By Type'}}
+            </div>
+        </div>
+
+        <div class="status">
+            <div class="row">
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 box" (click)="viewAll('Mobile Cases', 'type', 'Mobiles')">
+                    <div class="img-bg">
+                        <img src="../../../assets/images/mobile.png" class="img-fluid" alt="mobile-logo">
+                    </div>
+                    <p>{{currentLanguage=="arabic"? 'جرابات هواتف' : 'Mobiles Covers'}}</p>            
+                </div>
+        
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 box" (click)="viewAll('Mobile Cases', 'type', 'Airpods')">
+                    <div class="img-bg">
+                        <img src="../../../assets/images/headphones.webp" class="img-fluid" alt="pod-logo">
+                    </div>
+                    <p>{{currentLanguage=="arabic"? 'جرابات سماعات لاسلكية' : 'Air pods Covers'}}</p>            
+                </div>
+        
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 box" (click)="viewAll('Mobile Cases', 'type', 'Tablets')">
+                    <div class="img-bg tablet-bg">
+                        <img src="../../../assets/images/tablet-png.png" class="img-fluid" alt="tablet-logo">
+                    </div>
+                    <p>{{currentLanguage=="arabic"? 'جرابات تابلت' : 'Tablets Covers'}}</p>            
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- start headphones -->
+    <div class="cases" *ngIf="categoryName=='headphones'">
+        <div class="heading d-flex justify-content-between align-items-center">
+            <div class="title">
+                <div class="image">
+                    <img src="../../../assets/images/headphones.webp" class="img-fluid" alt="">
+                </div>
+                <div class="text">{{currentLanguage=="arabic"? 'سماعات' : 'Headphones'}}</div>
+            </div>
+
+            <div class="view-all">
+                <a (click)="viewAll('Headphones', 'allTitle', 'allSub')">{{currentLanguage=='arabic' ? 'أظهر الكل' : 'View All'}}</a>
+            </div>
+        </div>
+
+        <div class="brand-header">
+            <div class="title">
+                {{currentLanguage=="arabic"? 'تسوق حسب النوع' : 'Shop By Type'}}
+            </div>
+        </div>
+
+        <div class="status">
+            <div class="row">
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 box" (click)="viewAll('Headphones', 'type', 'Airpods')">
+                    <div class="img-bg">
+                        <img src="../../../assets/images/headphones.webp" class="img-fluid" alt="mobile-logo">
+                    </div>
+                    <p>{{currentLanguage=="arabic"? 'سماعات لاسلكية' : 'Air Pods'}}</p>            
+                </div>
+        
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 box" (click)="viewAll('Headphones', 'type', 'Headsets')">
+                    <div class="img-bg">
+                        <img src="../../../assets/images/headset-logo.png" class="img-fluid" alt="pod-logo">
+                    </div>
+                    <p>{{currentLanguage=="arabic"? 'سماعات رأس' : 'Headsets'}}</p>            
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- start cables -->
+    <div class="cases" *ngIf="categoryName=='cables'">
+        <div class="heading d-flex justify-content-between align-items-center">
+            <div class="title">
+                <div class="image">
+                    <img src="../../../assets/images/cables.png" class="img-fluid" alt="">
+                </div>
+                <div class="text">{{currentLanguage=="arabic"? 'كابلات' : 'Cables'}}</div>
+            </div>
+
+            <div class="view-all">
+                <a (click)="viewAll('Cables', 'allTitle', 'allSub')">{{currentLanguage=='arabic' ? 'أظهر الكل' : 'View All'}}</a>
+            </div>
+        </div>
+
+        <div class="brand-header">
+            <div class="title">
+                {{currentLanguage=="arabic"? 'تسوق حسب النوع' : 'Shop By Type'}}
+            </div>
+        </div>
+
+        <div class="status">
+            <div class="row">
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 box" (click)="viewAll('Cables', 'type', 'Micro')">
+                    <div class="img-bg">
+                        <img src="../../../assets/images/micro-cable-logo.png" class="img-fluid" alt="micro-logo">
+                    </div>
+                    <p>{{currentLanguage=="arabic"? 'مايكرو' : 'Micro'}}</p>            
+                </div>
+        
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 box" (click)="viewAll('Cables', 'type', 'Type C')">
+                    <div class="img-bg">
+                        <img src="../../../assets/images/type-c-logo.png" class="img-fluid" alt="type-c-logo">
+                    </div>
+                    <p>Type C</p>            
+                </div>
+
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 box" (click)="viewAll('Cables', 'type', 'I phone')">
+                    <div class="img-bg">
+                        <img src="../../../assets/images/iphone-cable.png" class="img-fluid" alt="iphone-logo">
+                    </div>
+                    <p>I phone</p>            
+                </div>
+
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 box" (click)="viewAll('Cables', 'type', 'Tablet')">
+                    <div class="img-bg">
+                        <img src="../../../assets/images/teblet-cable.png" class="img-fluid" alt="teblet-logo">
+                    </div>
+                    <p>{{currentLanguage=="arabic"? 'تابلت' : 'Tablet'}}</p>            
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- start flash -->
+    <div class="cases" *ngIf="categoryName=='flash'">
+        <div class="heading d-flex justify-content-between align-items-center">
+            <div class="title">
+                <div class="image">
+                    <img src="../../../assets/images/flash.png" class="img-fluid" alt="">
+                </div>
+                <div class="text">{{currentLanguage=="arabic"? 'فلاشات و كروت ميمورى' : 'Flash Drives & Memory'}}</div>
+            </div>
+
+            <div class="view-all">
+                <a (click)="viewAll('Flash Drivers & Memory', 'allTitle', 'allSub')">{{currentLanguage=='arabic' ? 'أظهر الكل' : 'View All'}}</a>
+            </div>
+        </div>
+
+        <div class="brand-header">
+            <div class="title">
+                {{currentLanguage=="arabic"? 'تسوق حسب النوع' : 'Shop By Type'}}
+            </div>
+        </div>
+
+        <div class="status">
+            <div class="row">
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 box" (click)="viewAll('Flash Drivers & Memory', 'type', 'Flash Drivers')">
+                    <div class="img-bg">
+                        <img src="../../../assets/images/usb-logo.webp" class="img-fluid" alt="flash-logo">
+                    </div>
+                    <p>{{currentLanguage=="arabic"? 'فلاشات' : 'Flash Drivers'}}</p>            
+                </div>
+        
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 box" (click)="viewAll('Flash Drivers & Memory', 'type', 'Memory Card')">
+                    <div class="img-bg">
+                        <img src="../../../assets/images/memory-logo.png" class="img-fluid" alt="memory-logo">
+                    </div>
+                    <p>{{currentLanguage=="arabic"? 'كروت ميمورى' : 'Memory Card'}}</p>            
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- start smart -->
+    <div class="cases" *ngIf="categoryName=='smart'">
+        <div class="heading d-flex justify-content-between align-items-center">
+            <div class="title">
+                <div class="image">
+                    <img src="../../../assets/images/watch.png" class="img-fluid" alt="">
+                </div>
+                <div class="text">{{currentLanguage=="arabic"? 'أجهزة ذكية' : 'Smart Devices'}}</div>
+            </div>
+
+            <div class="view-all">
+                <a (click)="viewAll('Smart Devices', 'allTitle', 'allSub')">{{currentLanguage=='arabic' ? 'أظهر الكل' : 'View All'}}</a>
+            </div>
+        </div>
+
+        <div class="brand-header">
+            <div class="title">
+                {{currentLanguage=="arabic"? 'تسوق حسب النوع' : 'Shop By Type'}}
+            </div>
+        </div>
+
+        <div class="status">
+            <div class="row">
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 box" (click)="viewAll('Smart Devices', 'type', 'Smart watch')">
+                    <div class="img-bg">
+                        <img src="../../../assets/images/watch.png" class="img-fluid" alt="watch-logo">
+                    </div>
+                    <p>{{currentLanguage=="arabic"? 'ساعات ذكية' : 'Smart Watch'}}</p>            
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

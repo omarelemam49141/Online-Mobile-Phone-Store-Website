@@ -1,0 +1,310 @@
+<div [ngClass]="{'arabic' : currentLanguage=='arabic'}"> 
+  <div class="h-100" *ngIf="!isAuth">
+    <section class="h-100 mt-5" style="background-color: #eee;">
+      <div class="container h-100 py-5">
+        <div class="row d-flex justify-content-center align-items-center h-100" *ngIf="!loading">
+          <div class="col-10 text-center" *ngIf="emptyCart">
+              <h3 class="text-muted">{{currentLanguage=='arabic'?'لم يتم اضافة منتجات الى العربة!':'Your cart is empty!'}}</h3>
+              <a routerLink="/" class="btn btn-primary btn-lg w-80 mt-3">{{currentLanguage=='arabic'?'أضف بعض المنتجات':'Add some products'}}</a>
+          </div>
+
+          <div class="col-10" *ngIf="!emptyCart">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h3 class="fw-normal mb-0 text-black" *ngIf="currentLanguage=='english'">Shopping Cart - {{cartProducts.length}} items</h3>
+              <h3 class="fw-normal mb-0 text-black" *ngIf="currentLanguage=='arabic'">عربة التسوق - عدد المنتجات :  {{cartProducts.length}}</h3>
+              <div>
+                  <button class="btn btn-danger" (click)="clearCart()">{{currentLanguage=='arabic'?'ازالة كل المنتجات':'Remove All items'}}</button>
+              </div>
+            </div>
+    
+            <div class="card rounded-3 mb-4" *ngFor="let product of cartProducts">
+              <div class="card-body p-4">
+                <div class="row d-flex justify-content-between align-items-center">
+                  <div class="col-lg-2 col-xl-2 text-center">
+                      <img
+                      [src]="product.product.images[0]"
+                      class="img-fluid rounded-3 image" alt="image">
+                  </div>
+                  <div class="col-lg-3 col-xl-3">
+                      <p class="lead fw-normal mb-2">{{product.product.title}}</p>
+                      <p><span class="text-muted">{{currentLanguage=='arabic'?'سعر المنتج:':'Item Price:'}} </span><span class="badge text-bg-success">{{product.product.price}} {{currentLanguage=='arabic'?'ج.م':'EGP'}}</span></p>
+                  </div>
+
+                  <div class="amount d-flex col-lg-3 col-xl-2" [ngClass]="{'flex-row-reverse': currentLanguage=='arabic'}">
+                      <input type="button" value="-" class="button-minus btn changing-amount" (click)="product.quantity=product.quantity-1; updateCart();" [disabled]="product.quantity <= 1">
+                      <input type="number" inputmode="numeric" class="form-control" min="1" max="{{product.product.amount}}" (change)="product.quantity<1?product.quantity=1:product.quantity; product.quantity>product.product.amount?product.quantity=product.product.amount:product.quantity;updateCart()" [(ngModel)]="product.quantity">
+                      <input type="button" value="+" class="button-plus btn changing-amount" (click)="product.quantity=product.quantity+1; updateCart();" [disabled]="product.quantity >= product.product.amount">
+                  </div>
+      
+                  <div class="col-lg-2 col-xl-2 offset-lg-1 mt-2 mt-lg-0">
+                      <h5 class="mb-0 fw-bold">{{(product.quantity * product.product.price).toFixed(2)}} {{currentLanguage=='arabic'?'ج.م':'EGP'}}</h5>
+                  </div>
+                  <div class="col-lg-1 col-xl-1 text-end">
+                      <a (click)="deletProduct(product)" class="text-danger fs-3"><fa-icon [icon]="faDel"></fa-icon></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+    
+          <div class="card mb-4">
+              <div class="card-body p-4 d-flex justify-content-between align-items-center">
+                  <h5>{{currentLanguage=='arabic'?'اجمالى التكلفة':'Total Amount'}}</h5>
+                  <h5 class="fw-bold">{{fixedAmount}} {{currentLanguage=='arabic'?'ج.م':'EGP'}}</h5>
+              </div>
+          </div>
+    
+          <div class="card">
+              <div class="card-body p-4">
+                  <button type="button" class="btn btn-warning btn-lg w-100 text-uppercase light h4" (click)="openSendOrder(infoModal, 'lg')">{{currentLanguage=='arabic'?'اطلب الان':'Order Now'}}</button>
+              </div>
+          </div>
+    
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <ng-template #infoModal let-modal id="adding-form">
+    <div class="modal-header">
+        <h4 class="modal-title">Your information</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click');" [disabled]="orderLoading"></button>
+    </div>
+    <div class="modal-body" *ngIf="!formLoading">
+      <form (ngSubmit)="makeOrder()" [formGroup]="myForm">
+        <div class="row mb-3">
+            <div class="col">
+                <!-- name input -->
+                <div class="form-outline">
+                    <label class="form-label" for="name">Name</label>
+                    <input type="text" formControlName="customerName" id="name" class="form-control">
+                </div>
+                <div style="color: red;" class="mt-1" *ngIf="!myForm.get('customerName').valid && myForm.get('customerName').touched">
+                    <p>Can't be empty</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                <!-- name input -->
+                <div class="form-outline">
+                    <label class="form-label" for="phone">Phone number</label>
+                    <input type="tel" formControlName="customerPhone" id="phone" class="form-control">
+                </div>
+                <div style="color: red;" class="mt-1" *ngIf="!myForm.get('customerPhone').valid && myForm.get('customerPhone').touched">
+                    <p>Can't be empty</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <!-- name input -->
+                <div class="form-outline">
+                    <label class="form-label" for="address">Address</label>
+                    <input type="text" formControlName="customerAddress" id="address" class="form-control">
+                </div>
+                <div style="color: red;" class="mt-1" *ngIf="!myForm.get('customerAddress').valid && myForm.get('customerAddress').touched">
+                    <p>Can't be empty</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <!-- submit input -->
+                <div class="card mt-3">
+                    <div class="card-body p-4 d-flex flex-wrap flex-column">
+                        <button type="submit" class="btn btn-success w-100 btn-lg" [disabled]="!myForm.valid || orderLoading">
+                          Send order
+                          <app-notification-spinner *ngIf="orderLoading"></app-notification-spinner>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </form>
+    </div>
+
+    
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click');" [disabled]="orderLoading">Close</button>
+    </div>
+  </ng-template>
+
+  <app-spinner *ngIf="loading" class="d-flex justify-content-center mt-5"></app-spinner>
+
+
+  <div class="row justify-content-center" *ngIf="isAuth==true && !loading">
+    <ul class="orders-listing list-unstyled d-flex mt-4 mb-0 ps-0">
+      <li><button class="pending" (click)="getNewOrders('pending')" [ngClass]="{'active': ordersType=='pending'}" [disabled]="ordersType=='pending' || loading">{{currentLanguage=='arabic'?'الطلبات الجديدة':'New Orders'}}</button></li>
+      <li><button class="accepted" (click)="getNewOrders('accepted')" [ngClass]="{'active': ordersType=='accepted'}" [disabled]="ordersType=='accepted' || loading">{{currentLanguage=='arabic'?'سجل الطلبات السابقة':'Orders History'}}</button></li>
+    </ul>
+
+    <div class="orders-container h-100 pb-5 pt-4" *ngIf="newOrders.length == 0">
+      <div class="col-10 text-center mt-5 m-auto">
+        <h3 class="text-muted fs-4">{{currentLanguage=='arabic'?'لا يوجد طلبات جديدة فى الوقت الحالى':'There are no new orders'}}</h3>
+      </div>
+    </div>
+
+    <div style="background-color: #eee;" *ngIf="newOrders.length > 0">
+      <h2 *ngIf="currentLanguage=='english'">{{ordersType == 'pending' ? 'New Orders' : 'Orders History'}}</h2>
+      <h2 *ngIf="currentLanguage=='arabic'">{{ordersType == 'pending' ? 'الطلبات الجديدة' : 'سجل الطلبات السابقة'}}</h2>
+      <ul class="responsive-table">
+        <li class="table-header fw-bold" [ngStyle]="{backgroundColor: ordersHeaderBg()}">
+          <div class="row align-items-center">
+            <div class="col-12 col-md-3 order-heading">{{currentLanguage=='arabic'?'معلومات العميل':'Customer Info'}}</div>
+            <div class="col-12 col-md-2 order-heading">{{currentLanguage=='arabic'?'عدد المنتجات':'Items'}}</div>
+            <div class="col-12 col-md-2 order-heading">{{currentLanguage=='arabic'?'قيمة الفاتورة':'Cart price'}}</div>
+            <div class="col-12 col-md-3 order-heading">{{currentLanguage=='arabic'?'تاريخ الطلب':'Date'}}</div>
+            <div class="col-12 col-md-2 order-heading">{{currentLanguage=='arabic'?'التفاصيل':'Details'}}</div>
+          </div>
+        </li>
+        <li class="table-row" *ngFor="let order of newOrders" style="font-size: 17px;">
+          <div class="row align-items-center">
+            <div class="col col-12 col-md-3" data-label="Customer Info">
+              <p class="mb-1">{{order.client}}</p>
+              <a href="tel:{{order.phone}}" class="client-phone">{{order.phone}}</a>
+            </div>
+            <div class="col col-12 col-md-2" data-label="Items">{{order.cartProducts.length}}</div>
+            <div class="col col-12 col-md-2" data-label="Cart price">{{getCartPrice(order.cartProducts)}} {{currentLanguage=='arabic'?'ج.م':'ُEGP'}}</div>
+            <div class="col col-12 col-md-3" data-label="Date">{{order.date | date: "medium"}}</div>
+            <div class="col col-12 col-md-2" data-label="Details"><fa-icon (click)="openCartDetails(content, order)" class="fs-3 btn showIcon" data-bs-toggle="modal" data-bs-target="#exampleModal" [icon]="faShow"></fa-icon></div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="row paginator-row" *ngIf="!loading && newOrders.length != 0" dir="ltr">
+      <mat-paginator #paginator
+          class="demo-paginator paginator"
+          (page)="handlePageEvent($event)"
+          [length]="length"
+          [pageSize]="pageSize"
+          [disabled]="disabled"
+          [showFirstLastButtons]="showFirstLastButtons"
+          [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
+          [hidePageSize]="hidePageSize"
+          [pageIndex]="pageIndex"
+          aria-label="Select page">
+      </mat-paginator>
+  </div>
+
+    <!-- Cart Details Modal -->
+    <ng-template #content let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" style="margin: 0;"><span class="fw-bold">{{cartDetails.client}}</span> order ({{cartDetails.date | date}})</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')" [disabled]="orderLoading"></button>
+      </div>
+      <div class="modal-body">
+        
+        <div class="card rounded-3 mb-4" *ngFor="let productDetails of cartDetails.cartProducts">
+          <div class="card-body p-4">
+            <div class="row d-flex justify-content-between align-items-center">
+              <div class="col-lg-2 text-center">
+                  <img
+                  src="{{productDetails.product.images[0]}}"
+                  class="img-fluid rounded-3 image" alt="image">
+              </div>
+              <div class="col-lg-4">
+                  <p class="lead fw-normal mb-2">{{productDetails.product.title}}</p>
+                  <p><span class="text-muted">Item Price: </span><span class="badge text-bg-success">{{productDetails.product.price}} LE</span></p>
+              </div>
+
+              <div class="amount d-flex col-lg-3">
+                <p><span class="text-muted">Item amount :</span><span class="fw-bold ms-1">{{productDetails.quantity}}</span></p>
+              </div>
+
+              <div class="col-lg-2 offset-lg-1 mt-2 mt-lg-0">
+                  <h5 class="mb-0 fw-bold">{{(productDetails.quantity * productDetails.product.price).toFixed(2)}} LE</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-4">
+          <div class="card-body p-4 d-flex justify-content-between flex-wrap">
+              <h5>Total Amount</h5>
+              <h5 class="fw-bold">{{getCartPrice(cartDetails.cartProducts)}} LE</h5>
+          </div>
+        </div>
+
+        <div class="card mb-4">
+          <div class="card-body p-4">
+              <h5 class="mb-2"><span>Phone number: </span> <a href="tel:{{cartDetails.phone}}" class="client-phone">{{cartDetails.phone}}</a></h5>
+              <h5><span>Address: </span> <span class="fw-bold">{{cartDetails.address}}</span></h5>
+          </div>
+        </div>
+
+        <div class="card" *ngIf="ordersType=='pending'">
+          <div class="card-body p-4 d-flex flex-wrap flex-column">
+              <button type="button" class="btn btn-success btn-lg text-uppercase light h4 acceptBtn" (click)="approveOrder(cartDetails)" [disabled]="orderLoading || removeCartLoading">Order delivered
+                <fa-icon [icon]="faAccept" *ngIf="!orderLoading" class="ms-1"></fa-icon>
+                <div class="lds-ring" *ngIf="orderLoading"><div></div><div></div><div></div><div></div></div>
+              </button>
+              <button type="button" class="btn btn-danger btn-lg text-uppercase light h4 acceptBtn" [disabled]="orderLoading || removeCartLoading" (click)="declineProcess(decline)">Decline
+                <fa-icon [icon]="faDecline" *ngIf="!removeCartLoading" class="ms-1"></fa-icon>
+                <div class="lds-ring" *ngIf="removeCartLoading"><div></div><div></div><div></div><div></div></div>
+              </button>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" #closeBtn (click)="modal.close('Close click')" [disabled]="orderLoading || removeCartLoading">Close</button>
+      </div>
+    </ng-template>
+
+    <!-- decline modal -->
+    <!-- <ng-template #decline let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title">Decline {{cartDetails.client}} order</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')" [disabled]="declineOrderLoading"></button>
+      </div>
+      <div class="modal-body">
+        <form class="form" method="post">
+          <label for="declineMessage" class="lead mb-1">Tell the client why you refused his order</label>
+          <textarea name="declineMessage" id="declineMessage" class="form-control mb-3" required [(ngModel)]="declineMessage" (change)="checkValidity()" [ngClass]="{'requiredInput': messageRequired}"></textarea>
+          <p class="text-danger mb-3" *ngIf="messageRequired">This field is required</p>
+          <div class="card">
+            <div class="card-body p-4 d-flex flex-wrap flex-column">
+                <button type="submit" class="btn btn-danger btn-lg text-uppercase light h4 acceptBtn" [disabled]="declineOrderLoading" (click)="declineOrder(cartDetails)">
+                  send message
+                  <div class="lds-ring" *ngIf="declineOrderLoading"><div></div><div></div><div></div><div></div></div>
+                </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" #closeBtn (click)="modal.close('Close click')" [disabled]="declineOrderLoading">Close</button>
+      </div>
+    </ng-template> -->
+
+    <ng-template #decline let-modal>
+      <div class="modal-header">
+          <h4 class="modal-title" id="modal-title">Decline {{cartDetails.client}} order</h4>
+          <button
+              type="button"
+              class="btn-close"
+              aria-describedby="modal-title"
+              (click)="modal.dismiss('Cross click')"
+          ></button>
+      </div>
+      <div class="modal-body">
+          <p>
+              <strong>Are you sure you want to decline <span class="text-primary">{{cartDetails.client}}</span> order?</strong>
+          </p>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">No, cancel</button>
+          <button type="button" class="btn btn-danger" [disabled]="declineOrderLoading" (click)="declineOrder(cartDetails)">
+            Yes, decline
+            <div class="lds-ring" *ngIf="declineOrderLoading"><div></div><div></div><div></div><div></div></div>
+          </button>
+      </div>
+    </ng-template>
+  </div>
+</div>

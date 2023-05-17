@@ -1,0 +1,102 @@
+$main-color: #b51cb0;
+$main-color-bg-dark: #310052;
+$main-color-bg: hsl(261.64deg, 34.46%, 34.71%);
+
+:host {
+    --font: 'Raleway', sans-serif;
+}
+
+* {
+    font-family: var(--font);
+}
+
+.lead {
+    font-weight: 500;
+}
+
+h1 {
+    text-align: left;
+}
+
+.sorting-heading .lead {
+    margin-right: 20px;
+    margin-bottom: 0;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+@media (max-width: 767px) {
+    select {
+        flex: 1;
+    }
+}
+
+select {
+    padding: 5px 30px;
+    border-radius: 26px;
+    border: 1px solid #bdbbbb;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: transparent;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+    background-repeat: no-repeat;
+    background-position-x: 97%;
+    background-position-y: 5px;
+    border: 1px solid #dfdfdf;
+    padding-right: 2rem;
+    min-width:250x;
+    width: 350px;
+}
+
+select:focus {
+    border: 1px solid $main-color-bg;
+}
+
+//arabic
+//arabic
+.arabic {
+    .lead {
+        font-weight: 500;
+    }
+    
+    h1 {
+        text-align: right;
+        font-family: 'Cairo', sans-serif;
+    }
+    
+    .sorting-heading .lead {
+        margin-right: 0;
+        margin-left: 20px;
+        margin-bottom: 0;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+    
+    @media (max-width: 767px) {
+        select {
+            flex: 1;
+        }
+    }
+    
+    select {
+        padding: 5px 30px;
+        border-radius: 26px;
+        border: 1px solid #bdbbbb;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background: transparent;
+        background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+        background-repeat: no-repeat;
+        background-position-x: 3%;
+        background-position-y: 5px;
+        border: 1px solid #dfdfdf;
+        padding-right: 2rem;
+        min-width:250x;
+        width: 350px;
+        font-size: 16px;
+    }
+    
+    select:focus {
+        border: 1px solid $main-color-bg;
+    }
+}

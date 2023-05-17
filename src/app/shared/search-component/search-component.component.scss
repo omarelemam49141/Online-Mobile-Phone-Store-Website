@@ -1,0 +1,62 @@
+:host {
+    --font: 'Raleway', sans-serif;
+}
+
+* {
+    text-decoration: none !important;
+    font-family: var(--font);
+}
+
+.search {
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    z-index: 9999;
+    height: auto !important;
+    max-height: 350px !important;
+    overflow-x: hidden;
+    border: 2px solid #eee;
+    border-top: none;
+}
+
+.too-long {
+    overflow-y: scroll;
+}
+
+.card {
+    height: 75px !important;
+    border-radius: 0 !important;
+    border: none !important;
+}
+
+.card:hover {
+    background-color: #eee;
+}
+
+div {
+    height: 100%;
+    max-height: 100%;
+    max-width: 100%;
+}
+
+@media (max-width: 500px) {
+    .image {
+        align-items: center;
+    }
+    .img-fluid {
+        height: 30px;
+        width: auto;
+    }
+}
+
+.card-body {
+    height: 100%;
+    padding: 5px;
+}
+
+.lead {
+    font-size: 15px;
+    margin: 0 !important;
+    text-decoration: none;
+    color: black;
+}

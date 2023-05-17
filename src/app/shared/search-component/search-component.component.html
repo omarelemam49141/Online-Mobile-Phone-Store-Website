@@ -1,0 +1,21 @@
+<div class="search" *ngIf="searchText != null || products.length!=0" [ngClass]="{'too-long': products.length > 4}">
+    <div class="card" *ngFor="let product of products" (click)="productDetails(product.id)">
+        <div class="card-body">
+            <div class="row d-flex justify-content-between align-items-center">
+                <div class="col-3 justify-content-center d-flex image">
+                    <img
+                    src="{{product.images[0]}}"
+                    class="img-fluid" alt="image">
+                </div>
+                <div class="col-6 d-flex align-items-center">
+                    <p class="lead fw-normal">{{product.title}}</p>
+                </div>
+    
+                <div class="amount col-3  d-flex align-items-center justify-content-center">
+                    <p class="lead fw-bold">{{product.price}} {{currentLanguage=='arabic' ? 'ج.م' : 'EGP'}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

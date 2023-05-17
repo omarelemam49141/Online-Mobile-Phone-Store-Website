@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "elkoryphone": {
+      "hosting": {
+        "online-market": [
+          "elkoryphone"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "elkoryphone"
+  }
+}
