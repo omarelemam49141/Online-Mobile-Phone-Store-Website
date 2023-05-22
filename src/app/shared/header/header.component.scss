@@ -169,7 +169,7 @@ $main-color-bg: hsl(261.64deg, 34.46%, 34.71%);
     position: fixed;
     top: 80px;
     width: 100%;
-    z-index: 100;
+    z-index: 10000;
 }
 
 .languages .card {
@@ -595,7 +595,7 @@ $main-color-bg: hsl(261.64deg, 34.46%, 34.71%);
     width: 100%;
     top: 0;
     font-family: var(--font);
-    z-index: 99;
+    z-index: 100;
     background-color: #f3f5f6;
     transition: all 0.3s ease;
         .navbar-brand {
@@ -745,7 +745,7 @@ $main-color-bg: hsl(261.64deg, 34.46%, 34.71%);
         transition: all 0.2s;
         position: fixed;
         width: 100%;
-        z-index: 100;
+        z-index: 10000;
     }
 
     .languages .card {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Route } from '@angular/router';
 import { Router } from 'express';
-import { BehaviorSubject, Subject } from 'rxjs'
+import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs'
 
 @Injectable({
   providedIn: 'root'

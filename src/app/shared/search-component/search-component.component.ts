@@ -4,6 +4,7 @@ import { NotificationService } from '../services/notification.service';
 import { ProductsService } from 'src/app/products/services/products.service';
 import { Router } from '@angular/router';
 import { ModeService } from '../services/mode.service';
+import { debounceTime, last, take } from 'rxjs';
 
 @Component({
   selector: 'app-search-component',
@@ -86,6 +87,7 @@ export class SearchComponentComponent implements OnInit {
 
           this.productService.getAllProductsImages(stringIds).subscribe({
             next: (imageRes:any) => {
+              this.products = [];
               this.productsImages = [];
               this.productsImages = imageRes.data;
 

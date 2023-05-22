@@ -29,7 +29,7 @@
                 
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                     <div class="navbar-nav ms-auto">
-                        <a class="nav-link lang" [ngClass]="{'arabic': currentLanguage=='arabic'}" (click)="isCollapsed = ! isCollapsed"
+                        <a class="nav-link lang" [ngClass]="{'arabic': currentLanguage=='arabic'}" (click)="isCollapsed = !isCollapsed"
                         [attr.aria-expanded]="!isCollapsed"
                         aria-controls="collapseExample" #langButton>
                             <span class="fi {{lang}}"></span>
@@ -283,7 +283,7 @@
             <div class="container">
                 <div class="lang-header">
                     <span>{{currentLanguage=='arabic' ? 'اختر اللغة' : 'Choose a language'}}</span>
-                    <fa-icon [icon]="closeIcon" (click)="isCollapsed = true"></fa-icon>
+                    <fa-icon [icon]="closeIcon" (click)="isCollapsed = !isCollapsed"></fa-icon>
                 </div>
                 <!-- english -->
                 <div *ngIf="currentLanguage=='english'" class="card-body mt-5 d-flex flex-wrap justify-content-center">

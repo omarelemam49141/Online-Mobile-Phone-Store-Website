@@ -388,6 +388,22 @@
     </ng-template>
 
     <div class="row" *ngIf="!loading && !isAuth">
+        <ngb-carousel
+            #carousel
+            [interval]="2000"
+            [pauseOnHover]="pauseOnHover"
+            [pauseOnFocus]="pauseOnFocus"
+            (slide)="onSlide($event)"
+        >
+            <ng-template ngbSlide *ngFor="let img of images; index as i" class="mb-5">
+                <a rel="nofollow noopener noreferrer">
+                    <div class="picsum-img-wrapper">
+                        <img [src]="img" class="img-fluid" alt="My image {{i + 1}} description" />
+                    </div>
+                </a>
+            </ng-template>
+        </ngb-carousel>
+
         <div class="heading mt-verybig">
             <app-product-heading *ngIf="currentLanguage=='english'" [selectValue]="sortingType" [productCategory]="categoryClicked" [amountOfItem]="productsLength" [productSubCategory]="subCategoryClicked != 'allSub' ? subCategoryClicked : ''"></app-product-heading>
             <app-product-heading *ngIf="currentLanguage=='arabic'" [selectValue]="sortingType" [productCategory]="categoryClickedArabic(categoryClicked)" [amountOfItem]="productsLength" [productSubCategory]="subCategoryClicked != 'allSub' ? subCategoryClickedArabic(subCategoryClicked) : ''"></app-product-heading>

@@ -20,7 +20,7 @@
                                 <h2 class="text-uppercase">{{product.title}}</h2>
                                 <p class="priceBefore" *ngIf="product.priceBefore != null && product.priceBefore > product.price">{{product.priceBefore}} {{currentLanguage=='arabic'?'ج.م':'EGP'}}</p>
                                 <p class="act-price">{{product.price}} {{currentLanguage=='arabic'?'ج.م':'EGP'}}</p>
-                                <p class="detailsP" *ngIf="!isAuth && currentLanguage=='english'">Availability: <span class="fw-bold" [ngStyle]="{color: amountPrice()}">{{product.amount>0 ? 'In stock' : 'Out of stock'}}</span></p>
+                                <p class="detailsP" *ngIf="!isAuth && currentLanguage=='english'">Availability: <span class="fw-bold fs-5" [ngStyle]="{color: amountPrice()}">{{product.amount>0 ? product.amount : 'Out of stock'}}</span></p>
                                 <p class="detailsP" *ngIf="!isAuth && currentLanguage=='arabic'">حالة المخزون: <span class="fw-bold" [ngStyle]="{color: amountPrice()}">{{product.amount>0 ? 'متاح' : 'نفذ من المخزون'}}</span></p>
                                 <p class="detailsP amountP" *ngIf="isAuth && currentLanguage=='english'">Amount: <span class="fw-bold" [ngStyle]="{color: amountPrice()}">{{product.amount>0 ? product.amount : 'Out of stock'}}</span></p>
                                 <p class="detailsP amountP" *ngIf="isAuth && currentLanguage=='arabic'">الكمية: <span class="fw-bold" [ngStyle]="{color: amountPrice()}">{{product.amount>0 ? product.amount : 'نفذ من المخزون'}}</span></p>

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, HostBinding } from '@angular/core';
 import { CartList } from 'src/app/shared/models';
 import { ProductsService } from '../services/products.service';
 import { faTrash, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCarousel, NgbModal, NgbModalConfig, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { Subscription } from 'rxjs'; 
@@ -29,7 +29,7 @@ export let myServiceFactory = (language) => {
 
   providers: [
     { provide: MatPaginatorIntl, useFactory: myServiceFactory }
- ]
+  ]
 })
 
 export class AllProductsComponent implements OnInit {
@@ -37,6 +37,17 @@ export class AllProductsComponent implements OnInit {
     config.backdrop = 'static';
 		config.keyboard = false;
   }
+
+  // images = [62, 83, 466, 965, 982, 1043, 738].map((n) => `https://picsum.photos/id/${n}/900/500`);
+  images = ["../../../assets/images/carousel1.png", "../../../assets/images/carousel2.png", "../../../assets/images/carousel3.jpg"];
+
+	paused = false;
+	unpauseOnArrow = false;
+	pauseOnIndicator = false;
+	pauseOnHover = true;
+	pauseOnFocus = true;
+
+  @ViewChild('carousel', { static: true }) carousel: NgbCarousel;
 
   activeModal;
   isAuth = false;
@@ -205,6 +216,30 @@ export class AllProductsComponent implements OnInit {
       }
     })
   }
+
+  //start image slider
+  togglePaused() {
+		if (this.paused) {
+			this.carousel.cycle();
+		} else {
+			this.carousel.pause();
+		}
+		this.paused = !this.paused;
+	}
+
+	onSlide(slideEvent: NgbSlideEvent) {
+		if (
+			this.unpauseOnArrow &&
+			slideEvent.paused &&
+			(slideEvent.source === NgbSlideEventSource.ARROW_LEFT || slideEvent.source === NgbSlideEventSource.ARROW_RIGHT)
+		) {
+			this.togglePaused();
+		}
+		if (this.pauseOnIndicator && !slideEvent.paused && slideEvent.source === NgbSlideEventSource.INDICATOR) {
+			this.togglePaused();
+		}
+	}
+  //end image slider
 
   setCurrentLanguage(myLang) {
     this.currentLanguage = myLang;
